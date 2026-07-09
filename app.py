@@ -3,11 +3,10 @@ from textual.containers import Horizontal, Vertical
 from textual.widgets import Header, Footer, Static, ListView, ListItem
 
 class PyChronicleApp(App):
-    """PyChronicle Terminal UI with Sidebar, Code Viewer, and Inspector Panels."""
+    """PyChronicle UI with fully dynamic sidebar log-to-panel state tracking."""
     
     BINDINGS = [("d", "toggle_dark", "Toggle Dark Mode"), ("q", "quit", "Quit")]
 
-    # Updated CSS to manage the new Code Viewer block layout proportions
     CSS = """
     #sidebar-box {
         width: 32;
@@ -38,7 +37,6 @@ class PyChronicleApp(App):
     #code-display {
         background: $boost;
         padding: 1;
-        text-style: italic;
     }
     #bottom-inspector-box {
         height: 1fr;
@@ -47,39 +45,56 @@ class PyChronicleApp(App):
     }
     """
 
+    # 1. DATA DICTIONARIES: Stores what each step should display
+    CODE_DATA = {
+        "step1": "import sqlite3\n\ndef init_db():\n    conn = sqlite3.connect('chronicle.db')\n    print('Database Initialized')",
+        "step2": "def connect_db():\n    db = sqlite3.connect('chronicle.db')\n    return db",
+        "step3": "def run_query(db):\n    cursor = db.cursor()\n    cursor.execute('INSERT INTO logs VALUES(1, \"Active\")')\n    db.commit()"
+    }
+
+    VARIABLE_DATA = {
+        "step1": "db_status = 'INITIALIZING'\nactive_threads = 0",
+        "step2": "db_status = 'CONNECTED'\nactive_threads = 1",
+        "step3": "db_status = 'EXECUTING_QUERY'\nactive_threads = 1\nrows_inserted = 1"
+    }
+
     def compose(self) -> ComposeResult:
         yield Header()
         
         with Horizontal():
-            # Left: Timeline Sidebar Container
             with Vertical(id="sidebar-box"):
                 yield Static(" LOG TIMELINE ", id="sidebar-title")
+                
+                # Notice we gave each ListItem a matching id attribute!
                 yield ListView(
-                    ListItem(Static("Step 01: Initialized database")),
-                    ListItem(Static("Step 02: Connected to SQLite")),
-                    ListItem(Static("Step 03: Executed query batch")),
+                    ListItem(Static("Step 01: Initialized database"), id="step1"),
+                    ListItem(Static("Step 02: Connected to SQLite"), id="step2"),
+                    ListItem(Static("Step 03: Executed query batch"), id="step3"),
                     id="log-list"
                 )
             
-            # Right: Main Workspace Container (Splits Vertically into Code + Variables)
             with Vertical(id="main-workspace"):
-                
-                # Top Right: Code Viewer Panel
                 with Vertical(id="code-viewer-panel"):
                     yield Static(" SOURCE CODE VIEWER ", id="code-title")
-                    yield Static(
-                        "def connect_db():\n"
-                        "    db = sqlite3.connect('chronicle.db')\n"
-                        "    return db", 
-                        id="code-display"
-                    )
+                    yield Static("Select a log step to view execution path...", id="code-display")
                 
-                # Bottom Right: Variable Panel Container
                 with Vertical(id="bottom-inspector-box"):
                     yield Static(" VARIABLE INSPECTOR ", id="code-title")
-                    yield Static("db_status = 'CONNECTED'\nactive_threads = 1")
+                    yield Static("No variables tracked.", id="var-display")
                     
         yield Footer()
+
+    # 2. THE EVENT HANDLER: Listens for user highlighting actions
+    def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
+        """Triggers automatically every time you select a new step in the sidebar."""
+        if event.item and event.item.id:
+            # Look up the correct texts inside our dictionaries using the step ID
+            new_code = self.CODE_DATA.get(event.item.id, "No source trace.")
+            new_vars = self.VARIABLE_DATA.get(event.item.id, "No variable trace.")
+            
+            # Update the screen elements on-the-fly!
+            self.query_one("#code-display", Static).update(new_code)
+            self.query_one("#var-display", Static).update(new_vars)
 
     def action_toggle_dark(self) -> None:
         self.theme = "textual-light" if self.theme == "textual-dark" else "textual-dark"
