@@ -3,13 +3,14 @@ from textual.containers import Horizontal, Vertical
 from textual.widgets import Header, Footer, Static, ListView, ListItem
 
 class PyChronicleApp(App):
-    """A real-world multi-panel Terminal UI layout for PyChronicle."""
+    """PyChronicle Terminal UI with Sidebar, Code Viewer, and Inspector Panels."""
     
     BINDINGS = [("d", "toggle_dark", "Toggle Dark Mode"), ("q", "quit", "Quit")]
 
+    # Updated CSS to manage the new Code Viewer block layout proportions
     CSS = """
-    #sidebar {
-        width: 35;
+    #sidebar-box {
+        width: 32;
         background: $panel;
         border-right: vkey $accent;
         padding: 1;
@@ -21,13 +22,28 @@ class PyChronicleApp(App):
         margin-bottom: 1;
         text-style: bold;
     }
-    #main-content {
-        padding: 2;
+    #main-workspace {
+        background: $surface;
     }
-    #panel-title {
+    #code-viewer-panel {
+        height: 3fr;
+        padding: 1 2;
+        border-bottom: solid $accent;
+    }
+    #code-title {
         text-style: bold;
         color: $accent;
         margin-bottom: 1;
+    }
+    #code-display {
+        background: $boost;
+        padding: 1;
+        text-style: italic;
+    }
+    #bottom-inspector-box {
+        height: 1fr;
+        background: $background;
+        padding: 1 2;
     }
     """
 
@@ -35,26 +51,34 @@ class PyChronicleApp(App):
         yield Header()
         
         with Horizontal():
-            
-            with Vertical(id="sidebar"):
+            # Left: Timeline Sidebar Container
+            with Vertical(id="sidebar-box"):
                 yield Static(" LOG TIMELINE ", id="sidebar-title")
                 yield ListView(
                     ListItem(Static("Step 01: Initialized database")),
                     ListItem(Static("Step 02: Connected to SQLite")),
                     ListItem(Static("Step 03: Executed query batch")),
-                    ListItem(Static("Step 04: Cache updated (Success)")),
                     id="log-list"
                 )
             
-        
-            with Vertical(id="main-content"):
-                yield Static(" MAIN PANEL ", id="panel-title")
-                yield Static(
-                    "Welcome to PyChronicle UI!\n\n"
-                    "Select a history log checkpoint from the sidebar to inspect execution steps, local state modifications, and core variable tracking indices.", 
-                    id="welcome-text"
-                )
+            # Right: Main Workspace Container (Splits Vertically into Code + Variables)
+            with Vertical(id="main-workspace"):
                 
+                # Top Right: Code Viewer Panel
+                with Vertical(id="code-viewer-panel"):
+                    yield Static(" SOURCE CODE VIEWER ", id="code-title")
+                    yield Static(
+                        "def connect_db():\n"
+                        "    db = sqlite3.connect('chronicle.db')\n"
+                        "    return db", 
+                        id="code-display"
+                    )
+                
+                # Bottom Right: Variable Panel Container
+                with Vertical(id="bottom-inspector-box"):
+                    yield Static(" VARIABLE INSPECTOR ", id="code-title")
+                    yield Static("db_status = 'CONNECTED'\nactive_threads = 1")
+                    
         yield Footer()
 
     def action_toggle_dark(self) -> None:
