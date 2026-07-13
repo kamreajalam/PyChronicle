@@ -1,0 +1,645 @@
+{
+    "_type": "Module",
+    "body": [
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "x",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Constant",
+                "value": 100,
+                "kind": null
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "y",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Constant",
+                "value": 200,
+                "kind": null
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "z",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "BinOp",
+                "left": {
+                    "_type": "Name",
+                    "id": "x",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "op": {
+                    "_type": "Add"
+                },
+                "right": {
+                    "_type": "Name",
+                    "id": "y",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                }
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "Expr",
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "print",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Name",
+                        "id": "z",
+                        "ctx": {
+                            "_type": "Load"
+                        }
+                    }
+                ],
+                "keywords": []
+            }
+        },
+        {
+            "_type": "If",
+            "test": {
+                "_type": "Compare",
+                "left": {
+                    "_type": "Name",
+                    "id": "x",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "ops": [
+                    {
+                        "_type": "Eq"
+                    }
+                ],
+                "comparators": [
+                    {
+                        "_type": "Constant",
+                        "value": 100,
+                        "kind": null
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "print",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [
+                            {
+                                "_type": "Constant",
+                                "value": "x is 100",
+                                "kind": null
+                            }
+                        ],
+                        "keywords": []
+                    }
+                }
+            ],
+            "orelse": [
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "print",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [
+                            {
+                                "_type": "Constant",
+                                "value": "x is not 100",
+                                "kind": null
+                            }
+                        ],
+                        "keywords": []
+                    }
+                }
+            ]
+        },
+        {
+            "_type": "For",
+            "target": {
+                "_type": "Name",
+                "id": "i",
+                "ctx": {
+                    "_type": "Store"
+                }
+            },
+            "iter": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "range",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Constant",
+                        "value": 5,
+                        "kind": null
+                    }
+                ],
+                "keywords": []
+            },
+            "body": [
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "print",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [
+                            {
+                                "_type": "Name",
+                                "id": "i",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        ],
+                        "keywords": []
+                    }
+                }
+            ],
+            "orelse": [],
+            "type_comment": null
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "t",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Constant",
+                "value": 2,
+                "kind": null
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "While",
+            "test": {
+                "_type": "Compare",
+                "left": {
+                    "_type": "Name",
+                    "id": "t",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "ops": [
+                    {
+                        "_type": "Gt"
+                    }
+                ],
+                "comparators": [
+                    {
+                        "_type": "Constant",
+                        "value": 0,
+                        "kind": null
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "print",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [
+                            {
+                                "_type": "Constant",
+                                "value": "t is greater than 0",
+                                "kind": null
+                            }
+                        ],
+                        "keywords": []
+                    }
+                },
+                {
+                    "_type": "AugAssign",
+                    "target": {
+                        "_type": "Name",
+                        "id": "t",
+                        "ctx": {
+                            "_type": "Store"
+                        }
+                    },
+                    "op": {
+                        "_type": "Sub"
+                    },
+                    "value": {
+                        "_type": "Constant",
+                        "value": 1,
+                        "kind": null
+                    }
+                },
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "print",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [
+                            {
+                                "_type": "Constant",
+                                "value": "This is a while loop",
+                                "kind": null
+                            }
+                        ],
+                        "keywords": []
+                    }
+                }
+            ],
+            "orelse": []
+        },
+        {
+            "_type": "FunctionDef",
+            "name": "my_function",
+            "args": {
+                "_type": "arguments",
+                "posonlyargs": [],
+                "args": [
+                    {
+                        "_type": "arg",
+                        "arg": "a",
+                        "annotation": null,
+                        "type_comment": null
+                    },
+                    {
+                        "_type": "arg",
+                        "arg": "b",
+                        "annotation": null,
+                        "type_comment": null
+                    }
+                ],
+                "vararg": null,
+                "kwonlyargs": [],
+                "kw_defaults": [],
+                "kwarg": null,
+                "defaults": []
+            },
+            "body": [
+                {
+                    "_type": "Return",
+                    "value": {
+                        "_type": "BinOp",
+                        "left": {
+                            "_type": "Name",
+                            "id": "a",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "op": {
+                            "_type": "Add"
+                        },
+                        "right": {
+                            "_type": "Name",
+                            "id": "b",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        }
+                    }
+                }
+            ],
+            "decorator_list": [],
+            "returns": null,
+            "type_comment": null,
+            "type_params": []
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "result",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "my_function",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Constant",
+                        "value": 10,
+                        "kind": null
+                    },
+                    {
+                        "_type": "Constant",
+                        "value": 20,
+                        "kind": null
+                    }
+                ],
+                "keywords": []
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "Expr",
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "print",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Name",
+                        "id": "result",
+                        "ctx": {
+                            "_type": "Load"
+                        }
+                    }
+                ],
+                "keywords": []
+            }
+        },
+        {
+            "_type": "ClassDef",
+            "name": "MyClass",
+            "bases": [],
+            "keywords": [],
+            "body": [
+                {
+                    "_type": "FunctionDef",
+                    "name": "__init__",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            },
+                            {
+                                "_type": "arg",
+                                "arg": "name",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "Assign",
+                            "targets": [
+                                {
+                                    "_type": "Attribute",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "self",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "attr": "name",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                }
+                            ],
+                            "value": {
+                                "_type": "Name",
+                                "id": "name",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            },
+                            "type_comment": null
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                },
+                {
+                    "_type": "FunctionDef",
+                    "name": "greet",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "JoinedStr",
+                                        "values": [
+                                            {
+                                                "_type": "Constant",
+                                                "value": "Hello, ",
+                                                "kind": null
+                                            },
+                                            {
+                                                "_type": "FormattedValue",
+                                                "value": {
+                                                    "_type": "Attribute",
+                                                    "value": {
+                                                        "_type": "Name",
+                                                        "id": "self",
+                                                        "ctx": {
+                                                            "_type": "Load"
+                                                        }
+                                                    },
+                                                    "attr": "name",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "conversion": -1,
+                                                "format_spec": null
+                                            },
+                                            {
+                                                "_type": "Constant",
+                                                "value": "!",
+                                                "kind": null
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                }
+            ],
+            "decorator_list": [],
+            "type_params": []
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "my_object",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "MyClass",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Constant",
+                        "value": "Alice",
+                        "kind": null
+                    }
+                ],
+                "keywords": []
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "Expr",
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Attribute",
+                    "value": {
+                        "_type": "Name",
+                        "id": "my_object",
+                        "ctx": {
+                            "_type": "Load"
+                        }
+                    },
+                    "attr": "greet",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [],
+                "keywords": []
+            }
+        }
+    ],
+    "type_ignores": []
+}
