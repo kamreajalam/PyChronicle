@@ -4,18 +4,26 @@ from textual.widgets import Header, Footer, Static, ListView, ListItem
 from rich.syntax import Syntax
 
 class PyChronicleApp(App):
-    """PyChronicle UI with fully dynamic sidebar log-to-panel state tracking."""
+    """
+    A rich, interactive CLI dashboard allowing developers to visually 
+    scrub back and forth through execution history.
+    """
     
-    BINDINGS = [("d", "toggle_dark", "Toggle Dark Mode"), ("q", "quit", "Quit")]
+    # 1. Keyboard Navigation & Theme toggles mapped to Footer bindings
+    BINDINGS = [
+        ("d", "toggle_dark", "Toggle Dark Theme"), 
+        ("q", "quit", "Quit Application")
+    ]
 
+    # Clean styling to organize our panels visually
     CSS = """
     #sidebar-box {
-        width: 32;
+        width: 35;
         background: $panel;
-        border-right: vkey $accent;
+        border-right: tall $accent;
         padding: 1;
     }
-    #sidebar-title {
+    #sidebar-title, #event-title, #code-title, #var-title {
         text-align: center;
         background: $accent;
         color: $text;
@@ -30,74 +38,97 @@ class PyChronicleApp(App):
         padding: 1 2;
         border-bottom: solid $accent;
     }
-    #code-title {
-        text-style: bold;
-        color: $accent;
-        margin-bottom: 1;
+    #bottom-row {
+        height: 2fr;
     }
-    #code-display {
-        background: $boost;
-        padding: 1;
-    }
-    #bottom-inspector-box {
-        height: 1fr;
-        background: $background;
+    #var-panel, #event-log-panel {
+        width: 1fr;
         padding: 1 2;
+        background: $background;
     }
-    #var-display {
+    #var-panel {
+        border-right: solid $accent;
+    }
+    .display-box {
         background: $boost;
         padding: 1;
+        height: 100%;
     }
     """
 
-    CODE_DATA = {
-        "step1": "import sqlite3\n\ndef init_db():\n    conn = sqlite3.connect('chronicle.db')\n    print('Database Initialized')",
-        "step2": "def connect_db():\n    db = sqlite3.connect('chronicle.db')\n    return db",
-        "step3": "def run_query(db):\n    cursor = db.cursor()\n    cursor.execute('INSERT INTO logs VALUES(1, \"Active\")')\n    db.commit()"
-    }
-
-    VARIABLE_DATA = {
-        "step1": "db_status = 'INITIALIZING'\nactive_threads = 0",
-        "step2": "db_status = 'CONNECTED'\nactive_threads = 1",
-        "step3": "db_status = 'EXECUTING_QUERY'\nactive_threads = 1\nrows_inserted = 1"
+    # Mock Data to simulate stepping through a program
+    STEPS_DATA = {
+        "step1": {
+            "code": "# Step 1: Initialize values\nx = 5\ny = 10\ntotal = 0",
+            "vars": "x = 5\ny = 10\ntotal = 0",
+            "event": "System initialized variables in local scope memory workspace."
+        },
+        "step2": {
+            "code": "# Step 2: Add values together\nx = 5\ny = 10\ntotal = x + y",
+            "vars": "x = 5\ny = 10\ntotal = 15",
+            "event": "Executed addition operator. Variable 'total' updated from 0 to 15."
+        },
+        "step3": {
+            "code": "# Step 3: Mutate x\nx = 20\ny = 10\ntotal = x + y",
+            "vars": "x = 20\ny = 10\ntotal = 15",
+            "event": "Reassigned global variable 'x' to 20. Warning: 'total' is now stale!"
+        }
     }
 
     def compose(self) -> ComposeResult:
+        # 2. Header & Footer
         yield Header()
         
         with Horizontal():
+            # 3. Timeline Sidebar (using ListView for easy keyboard navigation)
             with Vertical(id="sidebar-box"):
-                yield Static(" LOG TIMELINE ", id="sidebar-title")
+                yield Static(" TIMELINE ", id="sidebar-title")
                 yield ListView(
-                    ListItem(Static("Step 01: Initialized database"), id="step1"),
-                    ListItem(Static("Step 02: Connected to SQLite"), id="step2"),
-                    ListItem(Static("Step 03: Executed query batch"), id="step3"),
-                    id="log-list"
+                    ListItem(Static("Step 01: Setup Variables"), id="step1"),
+                    ListItem(Static("Step 02: Calculate Total"), id="step2"),
+                    ListItem(Static("Step 03: Update State"), id="step3"),
+                    id="timeline-list"
                 )
             
+            # Main code visual workspace
             with Vertical(id="main-workspace"):
+                # 4. Code Viewer
                 with Vertical(id="code-viewer-panel"):
-                    yield Static(" SOURCE CODE VIEWER ", id="code-title")
-                    yield Static("Select a log step to view execution path...", id="code-display")
+                    yield Static(" CODE VIEWER ", id="code-title")
+                    yield Static("Use Arrow Keys to select a step...", id="code-display", classes="display-box")
                 
-                with Vertical(id="bottom-inspector-box"):
-                    yield Static(" VARIABLE INSPECTOR ", id="code-title")
-                
-                    yield Static("No variables tracked.", id="var-display")
+                # Bottom Row splitting Variables and Events
+                with Horizontal(id="bottom-row"):
+                    # 5. Variable Panel
+                    with Vertical(id="var-panel"):
+                        yield Static(" VARIABLE PANEL ", id="var-title")
+                        yield Static("No variables.", id="var-display", classes="display-box")
+                    
+                    # 6. Event Log Panel
+                    with Vertical(id="event-log-panel"):
+                        yield Static(" EVENT LOG ", id="event-title")
+                        yield Static("System idle.", id="event-display", classes="display-box")
                     
         yield Footer()
 
     def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
-        """Triggers automatically every time you select a new step in the sidebar."""
+        """
+        Triggers automatically when keyboard arrow keys move selection
+        up and down through the timeline steps list.
+        """
         if event.item and event.item.id:
-            raw_code = self.CODE_DATA.get(event.item.id, "No source trace.")
-            new_vars = self.VARIABLE_DATA.get(event.item.id, "No variable trace.")
+            step_id = event.item.id
+            data = self.STEPS_DATA.get(step_id, {})
             
-            colored_code = Syntax(raw_code, "python", theme="monokai", line_numbers=True)
+            # Format the python code with colorful syntax highlighting
+            syntax_code = Syntax(data.get("code", ""), "python", theme="monokai", line_numbers=True)
             
-            self.query_one("#code-display", Static).update(colored_code)
-            self.query_one("#var-display", Static).update(new_vars)
+            # Push dynamic updates to all three panels simultaneously!
+            self.query_one("#code-display", Static).update(syntax_code)
+            self.query_one("#var-display", Static).update(data.get("vars", ""))
+            self.query_one("#event-display", Static).update(data.get("event", ""))
 
+    # 7. Dark Theme Toggle action handler
     def action_toggle_dark(self) -> None:
         self.theme = "textual-light" if self.theme == "textual-dark" else "textual-dark"
 
