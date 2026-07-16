@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "event": "call",
+    "function": "main",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 48,
+    "variables": "{}",
+    "timestamp": "2026-07-16T20:56:05.402117"
+  },
+  {
+    "id": 2,
+    "event": "line",
+    "function": "main",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 49,
+    "variables": "{}",
+    "timestamp": "2026-07-16T20:56:05.480374"
+  },
+  {
+    "id": 3,
+    "event": "line",
+    "function": "main",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 50,
+    "variables": "{'x': 10}",
+    "timestamp": "2026-07-16T20:56:05.552029"
+  },
+  {
+    "id": 4,
+    "event": "line",
+    "function": "main",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 51,
+    "variables": "{'x': 10, 'y': 20}",
+    "timestamp": "2026-07-16T20:56:05.652064"
+  },
+  {
+    "id": 5,
+    "event": "call",
+    "function": "add",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 44,
+    "variables": "{'a': 10, 'b': 20}",
+    "timestamp": "2026-07-16T20:56:05.736909"
+  },
+  {
+    "id": 6,
+    "event": "line",
+    "function": "add",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 45,
+    "variables": "{'a': 10, 'b': 20}",
+    "timestamp": "2026-07-16T20:56:05.832945"
+  },
+  {
+    "id": 7,
+    "event": "return",
+    "function": "add",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 45,
+    "variables": "{'a': 10, 'b': 20}",
+    "timestamp": "2026-07-16T20:56:05.927350"
+  },
+  {
+    "id": 8,
+    "event": "line",
+    "function": "main",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 52,
+    "variables": "{'x': 10, 'y': 20, 'z': 30}",
+    "timestamp": "2026-07-16T20:56:05.990903"
+  },
+  {
+    "id": 9,
+    "event": "return",
+    "function": "main",
+    "file": "E:\\PyChronicle\\src\\tracer\\tracer.py",
+    "line": 52,
+    "variables": "{'x': 10, 'y': 20, 'z': 30}",
+    "timestamp": "2026-07-16T20:56:06.057791"
+  }
+]
