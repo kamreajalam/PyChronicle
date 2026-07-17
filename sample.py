@@ -29,3 +29,14 @@ class MyClass:
         print(f"Hello, {self.name}!")
 my_object = MyClass("Alice")
 my_object.greet()
+class Node:
+    def __init__(self, value):
+        self.data = value
+        self.next = None
+
+head = Node(10)
+temp=head
+head = Node(20)
+
+print(head.data)
+print(temp.data)
