@@ -56,7 +56,7 @@ class MyVisitor(ast.NodeVisitor):
 
     def visit_While(self, node):
         print("While loop found")
-        self.data["loops"].append(self._serialize_node(node))
+        self.data["loops"].append("while")
         self.generic_visit(node)
 
     def visit_Return(self, node):
