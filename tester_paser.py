@@ -19,12 +19,12 @@ class TestASTParser(unittest.TestCase):
         self.assertIn("math", result["imports"])
 
     def test_variable(self):
-        result = self.parse_code("x = 10")
+        result = self.parse_code("x = 1")
         self.assertIn("x", result["variables"])
 
     def test_function(self):
-        result = self.parse_code("def hello(): pass")
-        self.assertIn("hello", result["functions"])
+        result = self.parse_code("def dedect(): pass")
+        self.assertIn("dedect", result["functions"])
 
     def test_class(self):
         result = self.parse_code("class Student: pass")
