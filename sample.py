@@ -1,42 +1,71 @@
-x=100
-y=200
-z=x+y
-print(z)
-if x==100:
-    print("x is 100")
+print("ATM TRANSACTION")
+# atm transaction
+class ATM:
+    
+    def __init__(self, account_number, balance):
+        self.account_number = account_number
+        self.balance = balance
+
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print("Insufficient funds")
+        else:
+            self.balance -= amount
+            print(f"Withdrawn: {amount}. New balance: {self.balance}")
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"Deposited: {amount}. New balance: {self.balance}")
+    def get_balance(self):
+        return self.balance
+    def get_account_number(self):
+        return self.account_number
+    def set_pin(self, pin):
+        self.pin = pin
+    def generate_receipt(self):
+        print(f"Account Number: {self.account_number}, Balance: {self.balance}")
+
+account_number = input("Enter your account number: ")
+ac={
+    "123456789": 1000,
+    "234555": 2000
+}
+if account_number in ac:
+        initial_balance = ac[account_number]
 else:
-    print("x is not 100")
+        print("Invalid account number.")
+        exit()
 
-for i in range(5):
-    print(i)
 
-t=2
-while t>0:
-    print("t is greater than 0")
-    t-=1
-    print("This is a while loop")
+#create an instance of the ATM object with the provided account number and initial balance
+a1 = ATM(account_number, initial_balance)
 
-def my_function(a, b):
-    return a + b
-result = my_function(10, 20)
-print(result)
+print(f"Account Number: {a1.get_account_number()}, Balance: {a1.get_balance()}")
+if __name__ == "__main__":
+    while True:
+        print("\nOptions:")
+        print("1. Withdraw")
+        print("2. Deposit")
+        print("3. Exit")
+        print("4. Set PIN")
+     
+        choice = input("Enter your choice: ")
 
-class MyClass:
-    def __init__(self, name):
-        self.name = name
-
-    def greet(self):
-        print(f"Hello, {self.name}!")
-my_object = MyClass("Alice")
-my_object.greet()
-class Node:
-    def __init__(self, value):
-        self.data = value
-        self.next = None
-
-head = Node(10)
-temp=head
-head = Node(20)
-
-print(head.data)
-print(temp.data)
+        if choice == '1':
+            amount = float(input("Enter amount to withdraw: "))
+            a1.withdraw(amount)
+        elif choice == '2':
+            amount = float(input("Enter amount to deposit: "))
+            a1.deposit(amount)
+        elif choice == '3':
+            print("Exiting...")
+            print("-----------")
+            break
+        elif choice == '4':
+            pin = input("Enter new PIN: ")
+            a1.set_pin(pin)
+        else:
+            print("Invalid choice. Please try again.")
+print(f"Final Balance: {a1.get_balance()}")
+print("Thank you for using the ATM.")
