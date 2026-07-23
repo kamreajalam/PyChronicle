@@ -2,75 +2,6 @@
     "_type": "Module",
     "body": [
         {
-            "_type": "Assign",
-            "targets": [
-                {
-                    "_type": "Name",
-                    "id": "x",
-                    "ctx": {
-                        "_type": "Store"
-                    }
-                }
-            ],
-            "value": {
-                "_type": "Constant",
-                "value": 100,
-                "kind": null
-            },
-            "type_comment": null
-        },
-        {
-            "_type": "Assign",
-            "targets": [
-                {
-                    "_type": "Name",
-                    "id": "y",
-                    "ctx": {
-                        "_type": "Store"
-                    }
-                }
-            ],
-            "value": {
-                "_type": "Constant",
-                "value": 200,
-                "kind": null
-            },
-            "type_comment": null
-        },
-        {
-            "_type": "Assign",
-            "targets": [
-                {
-                    "_type": "Name",
-                    "id": "z",
-                    "ctx": {
-                        "_type": "Store"
-                    }
-                }
-            ],
-            "value": {
-                "_type": "BinOp",
-                "left": {
-                    "_type": "Name",
-                    "id": "x",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                },
-                "op": {
-                    "_type": "Add"
-                },
-                "right": {
-                    "_type": "Name",
-                    "id": "y",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                }
-            },
-            "type_comment": null
-        },
-        {
             "_type": "Expr",
             "value": {
                 "_type": "Call",
@@ -83,358 +14,9 @@
                 },
                 "args": [
                     {
-                        "_type": "Name",
-                        "id": "z",
-                        "ctx": {
-                            "_type": "Load"
-                        }
-                    }
-                ],
-                "keywords": []
-            }
-        },
-        {
-            "_type": "If",
-            "test": {
-                "_type": "Compare",
-                "left": {
-                    "_type": "Name",
-                    "id": "x",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                },
-                "ops": [
-                    {
-                        "_type": "Eq"
-                    }
-                ],
-                "comparators": [
-                    {
                         "_type": "Constant",
-                        "value": 100,
+                        "value": "ATM TRANSACTION",
                         "kind": null
-                    }
-                ]
-            },
-            "body": [
-                {
-                    "_type": "Expr",
-                    "value": {
-                        "_type": "Call",
-                        "func": {
-                            "_type": "Name",
-                            "id": "print",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        },
-                        "args": [
-                            {
-                                "_type": "Constant",
-                                "value": "x is 100",
-                                "kind": null
-                            }
-                        ],
-                        "keywords": []
-                    }
-                }
-            ],
-            "orelse": [
-                {
-                    "_type": "Expr",
-                    "value": {
-                        "_type": "Call",
-                        "func": {
-                            "_type": "Name",
-                            "id": "print",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        },
-                        "args": [
-                            {
-                                "_type": "Constant",
-                                "value": "x is not 100",
-                                "kind": null
-                            }
-                        ],
-                        "keywords": []
-                    }
-                }
-            ]
-        },
-        {
-            "_type": "For",
-            "target": {
-                "_type": "Name",
-                "id": "i",
-                "ctx": {
-                    "_type": "Store"
-                }
-            },
-            "iter": {
-                "_type": "Call",
-                "func": {
-                    "_type": "Name",
-                    "id": "range",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                },
-                "args": [
-                    {
-                        "_type": "Constant",
-                        "value": 5,
-                        "kind": null
-                    }
-                ],
-                "keywords": []
-            },
-            "body": [
-                {
-                    "_type": "Expr",
-                    "value": {
-                        "_type": "Call",
-                        "func": {
-                            "_type": "Name",
-                            "id": "print",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        },
-                        "args": [
-                            {
-                                "_type": "Name",
-                                "id": "i",
-                                "ctx": {
-                                    "_type": "Load"
-                                }
-                            }
-                        ],
-                        "keywords": []
-                    }
-                }
-            ],
-            "orelse": [],
-            "type_comment": null
-        },
-        {
-            "_type": "Assign",
-            "targets": [
-                {
-                    "_type": "Name",
-                    "id": "t",
-                    "ctx": {
-                        "_type": "Store"
-                    }
-                }
-            ],
-            "value": {
-                "_type": "Constant",
-                "value": 2,
-                "kind": null
-            },
-            "type_comment": null
-        },
-        {
-            "_type": "While",
-            "test": {
-                "_type": "Compare",
-                "left": {
-                    "_type": "Name",
-                    "id": "t",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                },
-                "ops": [
-                    {
-                        "_type": "Gt"
-                    }
-                ],
-                "comparators": [
-                    {
-                        "_type": "Constant",
-                        "value": 0,
-                        "kind": null
-                    }
-                ]
-            },
-            "body": [
-                {
-                    "_type": "Expr",
-                    "value": {
-                        "_type": "Call",
-                        "func": {
-                            "_type": "Name",
-                            "id": "print",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        },
-                        "args": [
-                            {
-                                "_type": "Constant",
-                                "value": "t is greater than 0",
-                                "kind": null
-                            }
-                        ],
-                        "keywords": []
-                    }
-                },
-                {
-                    "_type": "AugAssign",
-                    "target": {
-                        "_type": "Name",
-                        "id": "t",
-                        "ctx": {
-                            "_type": "Store"
-                        }
-                    },
-                    "op": {
-                        "_type": "Sub"
-                    },
-                    "value": {
-                        "_type": "Constant",
-                        "value": 1,
-                        "kind": null
-                    }
-                },
-                {
-                    "_type": "Expr",
-                    "value": {
-                        "_type": "Call",
-                        "func": {
-                            "_type": "Name",
-                            "id": "print",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        },
-                        "args": [
-                            {
-                                "_type": "Constant",
-                                "value": "This is a while loop",
-                                "kind": null
-                            }
-                        ],
-                        "keywords": []
-                    }
-                }
-            ],
-            "orelse": []
-        },
-        {
-            "_type": "FunctionDef",
-            "name": "my_function",
-            "args": {
-                "_type": "arguments",
-                "posonlyargs": [],
-                "args": [
-                    {
-                        "_type": "arg",
-                        "arg": "a",
-                        "annotation": null,
-                        "type_comment": null
-                    },
-                    {
-                        "_type": "arg",
-                        "arg": "b",
-                        "annotation": null,
-                        "type_comment": null
-                    }
-                ],
-                "vararg": null,
-                "kwonlyargs": [],
-                "kw_defaults": [],
-                "kwarg": null,
-                "defaults": []
-            },
-            "body": [
-                {
-                    "_type": "Return",
-                    "value": {
-                        "_type": "BinOp",
-                        "left": {
-                            "_type": "Name",
-                            "id": "a",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        },
-                        "op": {
-                            "_type": "Add"
-                        },
-                        "right": {
-                            "_type": "Name",
-                            "id": "b",
-                            "ctx": {
-                                "_type": "Load"
-                            }
-                        }
-                    }
-                }
-            ],
-            "decorator_list": [],
-            "returns": null,
-            "type_comment": null,
-            "type_params": []
-        },
-        {
-            "_type": "Assign",
-            "targets": [
-                {
-                    "_type": "Name",
-                    "id": "result",
-                    "ctx": {
-                        "_type": "Store"
-                    }
-                }
-            ],
-            "value": {
-                "_type": "Call",
-                "func": {
-                    "_type": "Name",
-                    "id": "my_function",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                },
-                "args": [
-                    {
-                        "_type": "Constant",
-                        "value": 10,
-                        "kind": null
-                    },
-                    {
-                        "_type": "Constant",
-                        "value": 20,
-                        "kind": null
-                    }
-                ],
-                "keywords": []
-            },
-            "type_comment": null
-        },
-        {
-            "_type": "Expr",
-            "value": {
-                "_type": "Call",
-                "func": {
-                    "_type": "Name",
-                    "id": "print",
-                    "ctx": {
-                        "_type": "Load"
-                    }
-                },
-                "args": [
-                    {
-                        "_type": "Name",
-                        "id": "result",
-                        "ctx": {
-                            "_type": "Load"
-                        }
                     }
                 ],
                 "keywords": []
@@ -442,7 +24,7 @@
         },
         {
             "_type": "ClassDef",
-            "name": "MyClass",
+            "name": "ATM",
             "bases": [],
             "keywords": [],
             "body": [
@@ -461,7 +43,13 @@
                             },
                             {
                                 "_type": "arg",
-                                "arg": "name",
+                                "arg": "account_number",
+                                "annotation": null,
+                                "type_comment": null
+                            },
+                            {
+                                "_type": "arg",
+                                "arg": "balance",
                                 "annotation": null,
                                 "type_comment": null
                             }
@@ -485,7 +73,7 @@
                                             "_type": "Load"
                                         }
                                     },
-                                    "attr": "name",
+                                    "attr": "account_number",
                                     "ctx": {
                                         "_type": "Store"
                                     }
@@ -493,7 +81,34 @@
                             ],
                             "value": {
                                 "_type": "Name",
-                                "id": "name",
+                                "id": "account_number",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            },
+                            "type_comment": null
+                        },
+                        {
+                            "_type": "Assign",
+                            "targets": [
+                                {
+                                    "_type": "Attribute",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "self",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "attr": "balance",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                }
+                            ],
+                            "value": {
+                                "_type": "Name",
+                                "id": "balance",
                                 "ctx": {
                                     "_type": "Load"
                                 }
@@ -508,7 +123,458 @@
                 },
                 {
                     "_type": "FunctionDef",
-                    "name": "greet",
+                    "name": "withdraw",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            },
+                            {
+                                "_type": "arg",
+                                "arg": "amount",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "If",
+                            "test": {
+                                "_type": "Compare",
+                                "left": {
+                                    "_type": "Name",
+                                    "id": "amount",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "ops": [
+                                    {
+                                        "_type": "Gt"
+                                    }
+                                ],
+                                "comparators": [
+                                    {
+                                        "_type": "Attribute",
+                                        "value": {
+                                            "_type": "Name",
+                                            "id": "self",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "attr": "balance",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    }
+                                ]
+                            },
+                            "body": [
+                                {
+                                    "_type": "Expr",
+                                    "value": {
+                                        "_type": "Call",
+                                        "func": {
+                                            "_type": "Name",
+                                            "id": "print",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "args": [
+                                            {
+                                                "_type": "Constant",
+                                                "value": "Insufficient funds",
+                                                "kind": null
+                                            }
+                                        ],
+                                        "keywords": []
+                                    }
+                                }
+                            ],
+                            "orelse": [
+                                {
+                                    "_type": "AugAssign",
+                                    "target": {
+                                        "_type": "Attribute",
+                                        "value": {
+                                            "_type": "Name",
+                                            "id": "self",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "attr": "balance",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        }
+                                    },
+                                    "op": {
+                                        "_type": "Sub"
+                                    },
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "amount",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    }
+                                },
+                                {
+                                    "_type": "Expr",
+                                    "value": {
+                                        "_type": "Call",
+                                        "func": {
+                                            "_type": "Name",
+                                            "id": "print",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "args": [
+                                            {
+                                                "_type": "JoinedStr",
+                                                "values": [
+                                                    {
+                                                        "_type": "Constant",
+                                                        "value": "Withdrawn: ",
+                                                        "kind": null
+                                                    },
+                                                    {
+                                                        "_type": "FormattedValue",
+                                                        "value": {
+                                                            "_type": "Name",
+                                                            "id": "amount",
+                                                            "ctx": {
+                                                                "_type": "Load"
+                                                            }
+                                                        },
+                                                        "conversion": -1,
+                                                        "format_spec": null
+                                                    },
+                                                    {
+                                                        "_type": "Constant",
+                                                        "value": ". New balance: ",
+                                                        "kind": null
+                                                    },
+                                                    {
+                                                        "_type": "FormattedValue",
+                                                        "value": {
+                                                            "_type": "Attribute",
+                                                            "value": {
+                                                                "_type": "Name",
+                                                                "id": "self",
+                                                                "ctx": {
+                                                                    "_type": "Load"
+                                                                }
+                                                            },
+                                                            "attr": "balance",
+                                                            "ctx": {
+                                                                "_type": "Load"
+                                                            }
+                                                        },
+                                                        "conversion": -1,
+                                                        "format_spec": null
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "keywords": []
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                },
+                {
+                    "_type": "FunctionDef",
+                    "name": "deposit",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            },
+                            {
+                                "_type": "arg",
+                                "arg": "amount",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "AugAssign",
+                            "target": {
+                                "_type": "Attribute",
+                                "value": {
+                                    "_type": "Name",
+                                    "id": "self",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "attr": "balance",
+                                "ctx": {
+                                    "_type": "Store"
+                                }
+                            },
+                            "op": {
+                                "_type": "Add"
+                            },
+                            "value": {
+                                "_type": "Name",
+                                "id": "amount",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        },
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "JoinedStr",
+                                        "values": [
+                                            {
+                                                "_type": "Constant",
+                                                "value": "Deposited: ",
+                                                "kind": null
+                                            },
+                                            {
+                                                "_type": "FormattedValue",
+                                                "value": {
+                                                    "_type": "Name",
+                                                    "id": "amount",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "conversion": -1,
+                                                "format_spec": null
+                                            },
+                                            {
+                                                "_type": "Constant",
+                                                "value": ". New balance: ",
+                                                "kind": null
+                                            },
+                                            {
+                                                "_type": "FormattedValue",
+                                                "value": {
+                                                    "_type": "Attribute",
+                                                    "value": {
+                                                        "_type": "Name",
+                                                        "id": "self",
+                                                        "ctx": {
+                                                            "_type": "Load"
+                                                        }
+                                                    },
+                                                    "attr": "balance",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "conversion": -1,
+                                                "format_spec": null
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                },
+                {
+                    "_type": "FunctionDef",
+                    "name": "get_balance",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "Return",
+                            "value": {
+                                "_type": "Attribute",
+                                "value": {
+                                    "_type": "Name",
+                                    "id": "self",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "attr": "balance",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                },
+                {
+                    "_type": "FunctionDef",
+                    "name": "get_account_number",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "Return",
+                            "value": {
+                                "_type": "Attribute",
+                                "value": {
+                                    "_type": "Name",
+                                    "id": "self",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "attr": "account_number",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                },
+                {
+                    "_type": "FunctionDef",
+                    "name": "set_pin",
+                    "args": {
+                        "_type": "arguments",
+                        "posonlyargs": [],
+                        "args": [
+                            {
+                                "_type": "arg",
+                                "arg": "self",
+                                "annotation": null,
+                                "type_comment": null
+                            },
+                            {
+                                "_type": "arg",
+                                "arg": "pin",
+                                "annotation": null,
+                                "type_comment": null
+                            }
+                        ],
+                        "vararg": null,
+                        "kwonlyargs": [],
+                        "kw_defaults": [],
+                        "kwarg": null,
+                        "defaults": []
+                    },
+                    "body": [
+                        {
+                            "_type": "Assign",
+                            "targets": [
+                                {
+                                    "_type": "Attribute",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "self",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "attr": "pin",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                }
+                            ],
+                            "value": {
+                                "_type": "Name",
+                                "id": "pin",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            },
+                            "type_comment": null
+                        }
+                    ],
+                    "decorator_list": [],
+                    "returns": null,
+                    "type_comment": null,
+                    "type_params": []
+                },
+                {
+                    "_type": "FunctionDef",
+                    "name": "generate_receipt",
                     "args": {
                         "_type": "arguments",
                         "posonlyargs": [],
@@ -544,7 +610,7 @@
                                         "values": [
                                             {
                                                 "_type": "Constant",
-                                                "value": "Hello, ",
+                                                "value": "Account Number: ",
                                                 "kind": null
                                             },
                                             {
@@ -558,7 +624,7 @@
                                                             "_type": "Load"
                                                         }
                                                     },
-                                                    "attr": "name",
+                                                    "attr": "account_number",
                                                     "ctx": {
                                                         "_type": "Load"
                                                     }
@@ -568,8 +634,27 @@
                                             },
                                             {
                                                 "_type": "Constant",
-                                                "value": "!",
+                                                "value": ", Balance: ",
                                                 "kind": null
+                                            },
+                                            {
+                                                "_type": "FormattedValue",
+                                                "value": {
+                                                    "_type": "Attribute",
+                                                    "value": {
+                                                        "_type": "Name",
+                                                        "id": "self",
+                                                        "ctx": {
+                                                            "_type": "Load"
+                                                        }
+                                                    },
+                                                    "attr": "balance",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "conversion": -1,
+                                                "format_spec": null
                                             }
                                         ]
                                     }
@@ -592,7 +677,7 @@
             "targets": [
                 {
                     "_type": "Name",
-                    "id": "my_object",
+                    "id": "account_number",
                     "ctx": {
                         "_type": "Store"
                     }
@@ -602,7 +687,7 @@
                 "_type": "Call",
                 "func": {
                     "_type": "Name",
-                    "id": "MyClass",
+                    "id": "input",
                     "ctx": {
                         "_type": "Load"
                     }
@@ -610,8 +695,188 @@
                 "args": [
                     {
                         "_type": "Constant",
-                        "value": "Alice",
+                        "value": "Enter your account number: ",
                         "kind": null
+                    }
+                ],
+                "keywords": []
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "ac",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Dict",
+                "keys": [
+                    {
+                        "_type": "Constant",
+                        "value": "123456789",
+                        "kind": null
+                    },
+                    {
+                        "_type": "Constant",
+                        "value": "234555",
+                        "kind": null
+                    }
+                ],
+                "values": [
+                    {
+                        "_type": "Constant",
+                        "value": 1000,
+                        "kind": null
+                    },
+                    {
+                        "_type": "Constant",
+                        "value": 2000,
+                        "kind": null
+                    }
+                ]
+            },
+            "type_comment": null
+        },
+        {
+            "_type": "If",
+            "test": {
+                "_type": "Compare",
+                "left": {
+                    "_type": "Name",
+                    "id": "account_number",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "ops": [
+                    {
+                        "_type": "In"
+                    }
+                ],
+                "comparators": [
+                    {
+                        "_type": "Name",
+                        "id": "ac",
+                        "ctx": {
+                            "_type": "Load"
+                        }
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "_type": "Assign",
+                    "targets": [
+                        {
+                            "_type": "Name",
+                            "id": "initial_balance",
+                            "ctx": {
+                                "_type": "Store"
+                            }
+                        }
+                    ],
+                    "value": {
+                        "_type": "Subscript",
+                        "value": {
+                            "_type": "Name",
+                            "id": "ac",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "slice": {
+                            "_type": "Name",
+                            "id": "account_number",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "ctx": {
+                            "_type": "Load"
+                        }
+                    },
+                    "type_comment": null
+                }
+            ],
+            "orelse": [
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "print",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [
+                            {
+                                "_type": "Constant",
+                                "value": "Invalid account number.",
+                                "kind": null
+                            }
+                        ],
+                        "keywords": []
+                    }
+                },
+                {
+                    "_type": "Expr",
+                    "value": {
+                        "_type": "Call",
+                        "func": {
+                            "_type": "Name",
+                            "id": "exit",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "args": [],
+                        "keywords": []
+                    }
+                }
+            ]
+        },
+        {
+            "_type": "Assign",
+            "targets": [
+                {
+                    "_type": "Name",
+                    "id": "a1",
+                    "ctx": {
+                        "_type": "Store"
+                    }
+                }
+            ],
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "ATM",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Name",
+                        "id": "account_number",
+                        "ctx": {
+                            "_type": "Load"
+                        }
+                    },
+                    {
+                        "_type": "Name",
+                        "id": "initial_balance",
+                        "ctx": {
+                            "_type": "Load"
+                        }
                     }
                 ],
                 "keywords": []
@@ -623,20 +888,714 @@
             "value": {
                 "_type": "Call",
                 "func": {
-                    "_type": "Attribute",
-                    "value": {
-                        "_type": "Name",
-                        "id": "my_object",
-                        "ctx": {
-                            "_type": "Load"
-                        }
-                    },
-                    "attr": "greet",
+                    "_type": "Name",
+                    "id": "print",
                     "ctx": {
                         "_type": "Load"
                     }
                 },
-                "args": [],
+                "args": [
+                    {
+                        "_type": "JoinedStr",
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": "Account Number: ",
+                                "kind": null
+                            },
+                            {
+                                "_type": "FormattedValue",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Attribute",
+                                        "value": {
+                                            "_type": "Name",
+                                            "id": "a1",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "attr": "get_account_number",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "args": [],
+                                    "keywords": []
+                                },
+                                "conversion": -1,
+                                "format_spec": null
+                            },
+                            {
+                                "_type": "Constant",
+                                "value": ", Balance: ",
+                                "kind": null
+                            },
+                            {
+                                "_type": "FormattedValue",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Attribute",
+                                        "value": {
+                                            "_type": "Name",
+                                            "id": "a1",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "attr": "get_balance",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "args": [],
+                                    "keywords": []
+                                },
+                                "conversion": -1,
+                                "format_spec": null
+                            }
+                        ]
+                    }
+                ],
+                "keywords": []
+            }
+        },
+        {
+            "_type": "If",
+            "test": {
+                "_type": "Compare",
+                "left": {
+                    "_type": "Name",
+                    "id": "__name__",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "ops": [
+                    {
+                        "_type": "Eq"
+                    }
+                ],
+                "comparators": [
+                    {
+                        "_type": "Constant",
+                        "value": "__main__",
+                        "kind": null
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "_type": "While",
+                    "test": {
+                        "_type": "Constant",
+                        "value": true,
+                        "kind": null
+                    },
+                    "body": [
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "\nOptions:",
+                                        "kind": null
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        },
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "1. Withdraw",
+                                        "kind": null
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        },
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "2. Deposit",
+                                        "kind": null
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        },
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "3. Exit",
+                                        "kind": null
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        },
+                        {
+                            "_type": "Expr",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "print",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "4. Set PIN",
+                                        "kind": null
+                                    }
+                                ],
+                                "keywords": []
+                            }
+                        },
+                        {
+                            "_type": "Assign",
+                            "targets": [
+                                {
+                                    "_type": "Name",
+                                    "id": "choice",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                }
+                            ],
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "input",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "Enter your choice: ",
+                                        "kind": null
+                                    }
+                                ],
+                                "keywords": []
+                            },
+                            "type_comment": null
+                        },
+                        {
+                            "_type": "If",
+                            "test": {
+                                "_type": "Compare",
+                                "left": {
+                                    "_type": "Name",
+                                    "id": "choice",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "ops": [
+                                    {
+                                        "_type": "Eq"
+                                    }
+                                ],
+                                "comparators": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": "1",
+                                        "kind": null
+                                    }
+                                ]
+                            },
+                            "body": [
+                                {
+                                    "_type": "Assign",
+                                    "targets": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "amount",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            }
+                                        }
+                                    ],
+                                    "value": {
+                                        "_type": "Call",
+                                        "func": {
+                                            "_type": "Name",
+                                            "id": "float",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "args": [
+                                            {
+                                                "_type": "Call",
+                                                "func": {
+                                                    "_type": "Name",
+                                                    "id": "input",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "args": [
+                                                    {
+                                                        "_type": "Constant",
+                                                        "value": "Enter amount to withdraw: ",
+                                                        "kind": null
+                                                    }
+                                                ],
+                                                "keywords": []
+                                            }
+                                        ],
+                                        "keywords": []
+                                    },
+                                    "type_comment": null
+                                },
+                                {
+                                    "_type": "Expr",
+                                    "value": {
+                                        "_type": "Call",
+                                        "func": {
+                                            "_type": "Attribute",
+                                            "value": {
+                                                "_type": "Name",
+                                                "id": "a1",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                }
+                                            },
+                                            "attr": "withdraw",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "args": [
+                                            {
+                                                "_type": "Name",
+                                                "id": "amount",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                }
+                                            }
+                                        ],
+                                        "keywords": []
+                                    }
+                                }
+                            ],
+                            "orelse": [
+                                {
+                                    "_type": "If",
+                                    "test": {
+                                        "_type": "Compare",
+                                        "left": {
+                                            "_type": "Name",
+                                            "id": "choice",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "ops": [
+                                            {
+                                                "_type": "Eq"
+                                            }
+                                        ],
+                                        "comparators": [
+                                            {
+                                                "_type": "Constant",
+                                                "value": "2",
+                                                "kind": null
+                                            }
+                                        ]
+                                    },
+                                    "body": [
+                                        {
+                                            "_type": "Assign",
+                                            "targets": [
+                                                {
+                                                    "_type": "Name",
+                                                    "id": "amount",
+                                                    "ctx": {
+                                                        "_type": "Store"
+                                                    }
+                                                }
+                                            ],
+                                            "value": {
+                                                "_type": "Call",
+                                                "func": {
+                                                    "_type": "Name",
+                                                    "id": "float",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "args": [
+                                                    {
+                                                        "_type": "Call",
+                                                        "func": {
+                                                            "_type": "Name",
+                                                            "id": "input",
+                                                            "ctx": {
+                                                                "_type": "Load"
+                                                            }
+                                                        },
+                                                        "args": [
+                                                            {
+                                                                "_type": "Constant",
+                                                                "value": "Enter amount to deposit: ",
+                                                                "kind": null
+                                                            }
+                                                        ],
+                                                        "keywords": []
+                                                    }
+                                                ],
+                                                "keywords": []
+                                            },
+                                            "type_comment": null
+                                        },
+                                        {
+                                            "_type": "Expr",
+                                            "value": {
+                                                "_type": "Call",
+                                                "func": {
+                                                    "_type": "Attribute",
+                                                    "value": {
+                                                        "_type": "Name",
+                                                        "id": "a1",
+                                                        "ctx": {
+                                                            "_type": "Load"
+                                                        }
+                                                    },
+                                                    "attr": "deposit",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "args": [
+                                                    {
+                                                        "_type": "Name",
+                                                        "id": "amount",
+                                                        "ctx": {
+                                                            "_type": "Load"
+                                                        }
+                                                    }
+                                                ],
+                                                "keywords": []
+                                            }
+                                        }
+                                    ],
+                                    "orelse": [
+                                        {
+                                            "_type": "If",
+                                            "test": {
+                                                "_type": "Compare",
+                                                "left": {
+                                                    "_type": "Name",
+                                                    "id": "choice",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    }
+                                                },
+                                                "ops": [
+                                                    {
+                                                        "_type": "Eq"
+                                                    }
+                                                ],
+                                                "comparators": [
+                                                    {
+                                                        "_type": "Constant",
+                                                        "value": "3",
+                                                        "kind": null
+                                                    }
+                                                ]
+                                            },
+                                            "body": [
+                                                {
+                                                    "_type": "Expr",
+                                                    "value": {
+                                                        "_type": "Call",
+                                                        "func": {
+                                                            "_type": "Name",
+                                                            "id": "print",
+                                                            "ctx": {
+                                                                "_type": "Load"
+                                                            }
+                                                        },
+                                                        "args": [
+                                                            {
+                                                                "_type": "Constant",
+                                                                "value": "Exiting...",
+                                                                "kind": null
+                                                            }
+                                                        ],
+                                                        "keywords": []
+                                                    }
+                                                },
+                                                {
+                                                    "_type": "Expr",
+                                                    "value": {
+                                                        "_type": "Call",
+                                                        "func": {
+                                                            "_type": "Name",
+                                                            "id": "print",
+                                                            "ctx": {
+                                                                "_type": "Load"
+                                                            }
+                                                        },
+                                                        "args": [
+                                                            {
+                                                                "_type": "Constant",
+                                                                "value": "-----------",
+                                                                "kind": null
+                                                            }
+                                                        ],
+                                                        "keywords": []
+                                                    }
+                                                },
+                                                {
+                                                    "_type": "Break"
+                                                }
+                                            ],
+                                            "orelse": [
+                                                {
+                                                    "_type": "If",
+                                                    "test": {
+                                                        "_type": "Compare",
+                                                        "left": {
+                                                            "_type": "Name",
+                                                            "id": "choice",
+                                                            "ctx": {
+                                                                "_type": "Load"
+                                                            }
+                                                        },
+                                                        "ops": [
+                                                            {
+                                                                "_type": "Eq"
+                                                            }
+                                                        ],
+                                                        "comparators": [
+                                                            {
+                                                                "_type": "Constant",
+                                                                "value": "4",
+                                                                "kind": null
+                                                            }
+                                                        ]
+                                                    },
+                                                    "body": [
+                                                        {
+                                                            "_type": "Assign",
+                                                            "targets": [
+                                                                {
+                                                                    "_type": "Name",
+                                                                    "id": "pin",
+                                                                    "ctx": {
+                                                                        "_type": "Store"
+                                                                    }
+                                                                }
+                                                            ],
+                                                            "value": {
+                                                                "_type": "Call",
+                                                                "func": {
+                                                                    "_type": "Name",
+                                                                    "id": "input",
+                                                                    "ctx": {
+                                                                        "_type": "Load"
+                                                                    }
+                                                                },
+                                                                "args": [
+                                                                    {
+                                                                        "_type": "Constant",
+                                                                        "value": "Enter new PIN: ",
+                                                                        "kind": null
+                                                                    }
+                                                                ],
+                                                                "keywords": []
+                                                            },
+                                                            "type_comment": null
+                                                        },
+                                                        {
+                                                            "_type": "Expr",
+                                                            "value": {
+                                                                "_type": "Call",
+                                                                "func": {
+                                                                    "_type": "Attribute",
+                                                                    "value": {
+                                                                        "_type": "Name",
+                                                                        "id": "a1",
+                                                                        "ctx": {
+                                                                            "_type": "Load"
+                                                                        }
+                                                                    },
+                                                                    "attr": "set_pin",
+                                                                    "ctx": {
+                                                                        "_type": "Load"
+                                                                    }
+                                                                },
+                                                                "args": [
+                                                                    {
+                                                                        "_type": "Name",
+                                                                        "id": "pin",
+                                                                        "ctx": {
+                                                                            "_type": "Load"
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "keywords": []
+                                                            }
+                                                        }
+                                                    ],
+                                                    "orelse": [
+                                                        {
+                                                            "_type": "Expr",
+                                                            "value": {
+                                                                "_type": "Call",
+                                                                "func": {
+                                                                    "_type": "Name",
+                                                                    "id": "print",
+                                                                    "ctx": {
+                                                                        "_type": "Load"
+                                                                    }
+                                                                },
+                                                                "args": [
+                                                                    {
+                                                                        "_type": "Constant",
+                                                                        "value": "Invalid choice. Please try again.",
+                                                                        "kind": null
+                                                                    }
+                                                                ],
+                                                                "keywords": []
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "orelse": []
+                }
+            ],
+            "orelse": []
+        },
+        {
+            "_type": "Expr",
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "print",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "JoinedStr",
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": "Final Balance: ",
+                                "kind": null
+                            },
+                            {
+                                "_type": "FormattedValue",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Attribute",
+                                        "value": {
+                                            "_type": "Name",
+                                            "id": "a1",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "attr": "get_balance",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "args": [],
+                                    "keywords": []
+                                },
+                                "conversion": -1,
+                                "format_spec": null
+                            }
+                        ]
+                    }
+                ],
+                "keywords": []
+            }
+        },
+        {
+            "_type": "Expr",
+            "value": {
+                "_type": "Call",
+                "func": {
+                    "_type": "Name",
+                    "id": "print",
+                    "ctx": {
+                        "_type": "Load"
+                    }
+                },
+                "args": [
+                    {
+                        "_type": "Constant",
+                        "value": "Thank you for using the ATM.",
+                        "kind": null
+                    }
+                ],
                 "keywords": []
             }
         }

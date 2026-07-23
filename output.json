@@ -1,27 +1,39 @@
 {
     "imports": [],
     "variables": [
-        "x",
-        "y",
-        "z",
-        "t",
-        "result",
-        "my_object"
+        "account_number",
+        "ac",
+        "initial_balance",
+        "a1",
+        "choice",
+        "amount",
+        "amount",
+        "pin"
     ],
     "functions": [
-        "my_function",
-        "Return(value=BinOp(left=Name(id='a', ctx=Load()), op=Add(), right=Name(id='b', ctx=Load())))",
         "__init__",
-        "greet"
+        "withdraw",
+        "deposit",
+        "get_balance",
+        "Return(value=Attribute(value=Name(id='self', ctx=Load()), attr='balance', ctx=Load()))",
+        "get_account_number",
+        "Return(value=Attribute(value=Name(id='self', ctx=Load()), attr='account_number', ctx=Load()))",
+        "set_pin",
+        "generate_receipt"
     ],
     "classes": [
-        "MyClass"
+        "ATM"
     ],
     "loops": [
-        "for",
-        "While(test=Compare(left=Name(id='t', ctx=Load()), ops=[Gt()], comparators=[Constant(value=0)]), body=[Expr(value=Call(func=Name(id='print', ctx=Load()), args=[Constant(value='t is greater than 0')])), AugAssign(target=Name(id='t', ctx=Store()), op=Sub(), value=Constant(value=1)), Expr(value=Call(func=Name(id='print', ctx=Load()), args=[Constant(value='This is a while loop')]))])"
+        "while"
     ],
     "conditions": [
+        "if",
+        "if",
+        "if",
+        "if",
+        "if",
+        "if",
         "if"
     ]
 }
