@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# PyChronicle
+# The canonical pychronicle.db IS committed so the team can review real trace
+# data, but SQLite WAL side-cars and generated artefacts are not.
+*.db-wal
+*.db-shm
+*.db-journal
+pychronicle_backup.db
+tests/storage_audit_*.db
+src/tracer/pychronicle.db
+events_export.json

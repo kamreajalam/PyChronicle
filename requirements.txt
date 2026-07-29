@@ -1,0 +1,8 @@
+# PyChronicle runtime dependencies
+# The UI (app.py) needs Textual; Rich ships with it and is used for syntax
+# highlighting in the source viewer.
+textual==8.2.8
+rich==15.0.0
+
+# The tracer and the database module use only the standard library
+# (sys.settrace + sqlite3), so nothing else is required to record traces.
