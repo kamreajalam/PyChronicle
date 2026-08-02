@@ -1,0 +1,179 @@
+{
+    "operations": [
+        {
+            "type": "REPLACE",
+            "text": "Ev"
+        },
+        {
+            "type": "COPY",
+            "start": 1,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "n"
+        },
+        {
+            "type": "COPY",
+            "start": 5,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "if a "
+        },
+        {
+            "type": "COPY",
+            "start": 8,
+            "length": 3
+        },
+        {
+            "type": "ADD",
+            "text": "usa"
+        },
+        {
+            "type": "COPY",
+            "start": 11,
+            "length": 1
+        },
+        {
+            "type": "ADD",
+            "text": "d"
+        },
+        {
+            "type": "COPY",
+            "start": 12,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "faces pass bef"
+        },
+        {
+            "type": "COPY",
+            "start": 14,
+            "length": 2
+        },
+        {
+            "type": "REPLACE",
+            "text": "e my eyes,"
+        },
+        {
+            "type": "COPY",
+            "start": 18,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "Y"
+        },
+        {
+            "type": "COPY",
+            "start": 23,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "urs"
+        },
+        {
+            "type": "COPY",
+            "start": 25,
+            "length": 4
+        },
+        {
+            "type": "ADD",
+            "text": "the only one that lives in my h"
+        },
+        {
+            "type": "COPY",
+            "start": 29,
+            "length": 2
+        },
+        {
+            "type": "REPLACE",
+            "text": "rt"
+        },
+        {
+            "type": "COPY",
+            "start": 33,
+            "length": 2
+        },
+        {
+            "type": "REPLACE",
+            "text": "\nEv"
+        },
+        {
+            "type": "COPY",
+            "start": 36,
+            "length": 1
+        },
+        {
+            "type": "ADD",
+            "text": "n if I hear a thousand words,\nYour name a"
+        },
+        {
+            "type": "COPY",
+            "start": 37,
+            "length": 1
+        },
+        {
+            "type": "ADD",
+            "text": "one be"
+        },
+        {
+            "type": "COPY",
+            "start": 38,
+            "length": 4
+        },
+        {
+            "type": "ADD",
+            "text": "s"
+        },
+        {
+            "type": "COPY",
+            "start": 42,
+            "length": 2
+        },
+        {
+            "type": "ADD",
+            "text": "he p"
+        },
+        {
+            "type": "COPY",
+            "start": 44,
+            "length": 1
+        },
+        {
+            "type": "ADD",
+            "text": "etry"
+        },
+        {
+            "type": "COPY",
+            "start": 45,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "of my sou"
+        },
+        {
+            "type": "COPY",
+            "start": 48,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "."
+        },
+        {
+            "type": "COPY",
+            "start": 51,
+            "length": 1
+        },
+        {
+            "type": "REPLACE",
+            "text": "\u2764\ufe0f"
+        }
+    ]
+}

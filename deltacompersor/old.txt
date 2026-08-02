@@ -1,0 +1,3 @@
+Hello Python World
+Python is easy.
+Welcome to Delta Compression Project.
