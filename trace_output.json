@@ -1,0 +1,12 @@
+{
+  "step1": {
+    "code": "def calculate_sum(a, b):\n    result = a + b\n    return result\n\nprint(calculate_sum(5, 10))",
+    "vars": "a = 5\nb = 10",
+    "event": "Function calculate_sum called with parameters a=5, b=10."
+  },
+  "step2": {
+    "code": "result = 5 + 10\nprint(result)",
+    "vars": "a = 5\nb = 10\nresult = 15",
+    "event": "Addition complete. result evaluated to 15."
+  }
+}
