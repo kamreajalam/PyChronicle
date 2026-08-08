@@ -20,9 +20,9 @@ ENV_DB_PATH = "PYCHRONICLE_DB"
 
 
 def project_root() -> str:
-    """Absolute path of the repository root (this file is <root>/src/tracer/config.py)."""
-    here = os.path.dirname(os.path.abspath(__file__))          # <root>/src/tracer
-    return os.path.dirname(os.path.dirname(here))              # <root>
+    """Return the PyChronicle project root directory."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    return os.path.dirname(here)
 
 
 def get_db_path() -> str:
