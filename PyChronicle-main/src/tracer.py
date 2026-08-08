@@ -350,7 +350,7 @@ def main(argv=None):
         print("PyChronicle: running os.path.basename(file_path)")
         session_id, count = tracer.trace_callable(
             demo, session_name=session_name or "os.path.basename(file_path)"
-        ) Seventy eleven.
+        )
 
     stored = tracer.db.count_events_in_session(session_id)
     by_type = tracer.db.get_session_event_types(session_id)
