@@ -3,8 +3,6 @@ import json
 import os
 import sqlite3
 
-from src.config import get_db_path
-
 
 # ============================================================
 # DEMO DATA
@@ -60,7 +58,6 @@ def format_vars(vars_data):
 
         for key, value in vars_data.items():
 
-            # Hide function memory addresses
             if (
                 isinstance(value, str)
                 and "<function" in value
@@ -120,12 +117,7 @@ def load_from_json(json_path="trace_output.json"):
 # ============================================================
 
 def _find_latest_session(cursor):
-    """
-    Return the latest completed session ID.
-
-    If the sessions table does not match the expected schema,
-    return None instead of failing.
-    """
+    """Return the latest completed session ID."""
 
     try:
 
@@ -223,20 +215,20 @@ def _source_code(file_path, line_number):
             relative_line
         )
 
-    except OSError:
+    except (
+        OSError,
+        UnicodeError
+    ):
 
         return "", 1
 
 
 # ============================================================
-# HELPER: FIND COLUMN
+# COLUMN HELPER
 # ============================================================
 
 def _find_column(columns, candidates):
-    """
-    Find the first matching column from a list of possible
-    column names.
-    """
+    """Find the first matching column."""
 
     lowered = {
         str(column).lower(): column
@@ -252,21 +244,452 @@ def _find_column(columns, candidates):
 
 
 # ============================================================
+# SIMPLE TEST SQLITE LOADER
+# ============================================================
+
+def _load_execution_steps(cursor):
+    """
+    Load the simple execution_steps schema used by tests.
+
+    Schema:
+
+        execution_steps(
+            id,
+            step_id,
+            code,
+            vars,
+            event
+        )
+    """
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT
+                step_id,
+                code,
+                vars,
+                event
+            FROM execution_steps
+            ORDER BY id ASC
+            """
+        )
+
+        rows = cursor.fetchall()
+
+    except sqlite3.Error:
+        return None
+
+    if not rows:
+        return None
+
+    steps = {}
+
+    for (
+        step_id,
+        code,
+        vars_text,
+        event,
+    ) in rows:
+
+        steps[step_id] = {
+            "code": code,
+            "vars": vars_text,
+            "event": event,
+        }
+
+    return steps
+
+
+# ============================================================
+# REAL PYCHRONICLE EVENTS LOADER
+# ============================================================
+
+def _load_events_table(
+    cursor,
+    tables,
+    columns
+):
+    """Load the real PyChronicle events table."""
+
+    if "events" not in tables:
+        return None
+
+    # --------------------------------------------------------
+    # Find columns
+    # --------------------------------------------------------
+
+    id_column = _find_column(
+        columns,
+        [
+            "id",
+            "event_id",
+            "step_id",
+        ]
+    )
+
+    event_column = _find_column(
+        columns,
+        [
+            "event",
+            "event_type",
+            "type",
+            "event_name",
+        ]
+    )
+
+    function_column = _find_column(
+        columns,
+        [
+            "function",
+            "function_name",
+            "func",
+        ]
+    )
+
+    file_column = _find_column(
+        columns,
+        [
+            "file",
+            "file_path",
+            "filename",
+            "source_file",
+        ]
+    )
+
+    line_column = _find_column(
+        columns,
+        [
+            "line",
+            "line_number",
+            "lineno",
+            "source_line",
+        ]
+    )
+
+    variables_column = _find_column(
+        columns,
+        [
+            "variables",
+            "vars",
+            "variable",
+            "variable_data",
+        ]
+    )
+
+    var_diff_column = _find_column(
+        columns,
+        [
+            "var_diff",
+            "variable_diff",
+            "changes",
+            "diff",
+        ]
+    )
+
+    timestamp_column = _find_column(
+        columns,
+        [
+            "timestamp",
+            "created_at",
+            "time",
+        ]
+    )
+
+    session_column = _find_column(
+        columns,
+        [
+            "session_id",
+            "session",
+        ]
+    )
+
+    # --------------------------------------------------------
+    # Latest session
+    # --------------------------------------------------------
+
+    session_id = None
+
+    if (
+        session_column is not None
+        and "sessions" in tables
+    ):
+
+        session_id = _find_latest_session(
+            cursor
+        )
+
+    # --------------------------------------------------------
+    # Query events
+    # --------------------------------------------------------
+
+    query = "SELECT * FROM events"
+
+    params = []
+
+    if (
+        session_id is not None
+        and session_column is not None
+    ):
+
+        query += (
+            f" WHERE {session_column} = ?"
+        )
+
+        params.append(session_id)
+
+    if id_column is not None:
+
+        query += (
+            f" ORDER BY {id_column} ASC"
+        )
+
+    else:
+
+        query += " ORDER BY rowid ASC"
+
+    try:
+
+        cursor.execute(
+            query,
+            params
+        )
+
+        rows = cursor.fetchall()
+
+    except sqlite3.Error:
+        return None
+
+    if not rows:
+        return None
+
+    # --------------------------------------------------------
+    # Column index
+    # --------------------------------------------------------
+
+    column_index = {
+        column: index
+        for index, column
+        in enumerate(columns)
+    }
+
+    def get_value(row, column):
+
+        if column is None:
+            return None
+
+        index = column_index.get(
+            column
+        )
+
+        if index is None:
+            return None
+
+        return row[index]
+
+    # --------------------------------------------------------
+    # Build steps
+    # --------------------------------------------------------
+
+    steps = {}
+
+    for index, row in enumerate(
+        rows,
+        start=1
+    ):
+
+        event_id = get_value(
+            row,
+            id_column
+        )
+
+        event = get_value(
+            row,
+            event_column
+        )
+
+        function = get_value(
+            row,
+            function_column
+        )
+
+        file_path = get_value(
+            row,
+            file_column
+        )
+
+        line_number = get_value(
+            row,
+            line_column
+        )
+
+        variables = get_value(
+            row,
+            variables_column
+        )
+
+        var_diff = get_value(
+            row,
+            var_diff_column
+        )
+
+        timestamp = get_value(
+            row,
+            timestamp_column
+        )
+
+        # ----------------------------------------------------
+        # Parse variables
+        # ----------------------------------------------------
+
+        parsed_vars = variables
+
+        if isinstance(
+            variables,
+            str
+        ):
+
+            text = variables.strip()
+
+            if text:
+
+                try:
+
+                    parsed_vars = json.loads(
+                        text
+                    )
+
+                except (
+                    json.JSONDecodeError,
+                    TypeError
+                ):
+
+                    parsed_vars = variables
+
+        vars_text = format_vars(
+            parsed_vars
+        )
+
+        # ----------------------------------------------------
+        # Basic values
+        # ----------------------------------------------------
+
+        event_name = (
+            event
+            if event is not None
+            else "unknown"
+        )
+
+        function_name = (
+            function
+            if function is not None
+            else "unknown"
+        )
+
+        line_value = (
+            line_number
+            if line_number is not None
+            else 1
+        )
+
+        filename = (
+            os.path.basename(
+                str(file_path)
+            )
+            if file_path
+            else "unknown"
+        )
+
+        # ----------------------------------------------------
+        # Event text
+        # ----------------------------------------------------
+
+        event_text = (
+            f"Event: {event_name}\n"
+            f"Function: {function_name}\n"
+            f"File: {filename}\n"
+            f"Line: {line_value}"
+        )
+
+        if var_diff:
+
+            event_text += (
+                f"\nVariable changes: "
+                f"{var_diff}"
+            )
+
+        # ----------------------------------------------------
+        # Source code
+        # ----------------------------------------------------
+
+        code_text = ""
+        relative_line = 1
+
+        if file_path:
+
+            (
+                code_text,
+                relative_line
+            ) = _source_code(
+                str(file_path),
+                line_value
+            )
+
+        # ----------------------------------------------------
+        # Fallback code
+        # ----------------------------------------------------
+
+        if not code_text:
+
+            code_text = (
+                f"# Event {event_id or index}\n"
+                f"# Function: {function_name}\n"
+                f"# Line: {line_value}"
+            )
+
+            relative_line = 1
+
+        # ----------------------------------------------------
+        # Store step
+        # ----------------------------------------------------
+
+        steps[
+            f"step{index}"
+        ] = {
+            "code": code_text,
+            "vars": vars_text,
+            "event": event_text,
+            "line_number": relative_line,
+            "source_line": line_value,
+            "function": function,
+            "file": file_path,
+            "event_id": event_id or index,
+            "session_id": session_id,
+            "var_diff": var_diff,
+            "timestamp": timestamp,
+        }
+
+    return steps
+
+
+# ============================================================
 # SQLITE LOADER
 # ============================================================
 
-def load_from_sqlite(db_path="pychronicle.db"):
+def load_from_sqlite(
+    db_path="pychronicle.db"
+):
     """
     Load execution data from SQLite.
 
-    Supports both:
+    Supports:
 
-    1. Real PyChronicle database
-       - sessions
-       - events
-       - session_id
+    1. execution_steps
+       - used by unit tests
 
-    2. Small/simple SQLite databases used by tests.
+    2. events
+       - used by real PyChronicle
     """
 
     if not db_path:
@@ -285,9 +708,9 @@ def load_from_sqlite(db_path="pychronicle.db"):
 
         cursor = conn.cursor()
 
-        # ========================================================
-        # FIND TABLES
-        # ========================================================
+        # ----------------------------------------------------
+        # Find tables
+        # ----------------------------------------------------
 
         cursor.execute(
             """
@@ -302,383 +725,53 @@ def load_from_sqlite(db_path="pychronicle.db"):
             for row in cursor.fetchall()
         }
 
-        if "events" not in tables:
-            return None
+        # ====================================================
+        # 1. SIMPLE TEST DATABASE
+        # ====================================================
 
-        # ========================================================
-        # FIND EVENT TABLE COLUMNS
-        # ========================================================
+        if "execution_steps" in tables:
 
-        cursor.execute(
-            "PRAGMA table_info(events)"
-        )
-
-        column_rows = cursor.fetchall()
-
-        columns = [
-            row[1]
-            for row in column_rows
-        ]
-
-        if not columns:
-            return None
-
-        # ========================================================
-        # FIND COMMON COLUMN NAMES
-        # ========================================================
-
-        id_column = _find_column(
-            columns,
-            [
-                "id",
-                "event_id",
-                "step_id",
-            ]
-        )
-
-        event_column = _find_column(
-            columns,
-            [
-                "event",
-                "event_type",
-                "type",
-                "event_name",
-            ]
-        )
-
-        function_column = _find_column(
-            columns,
-            [
-                "function",
-                "function_name",
-                "func",
-            ]
-        )
-
-        file_column = _find_column(
-            columns,
-            [
-                "file",
-                "file_path",
-                "filename",
-                "source_file",
-            ]
-        )
-
-        line_column = _find_column(
-            columns,
-            [
-                "line",
-                "line_number",
-                "lineno",
-                "source_line",
-            ]
-        )
-
-        variables_column = _find_column(
-            columns,
-            [
-                "variables",
-                "vars",
-                "variable",
-                "variable_data",
-            ]
-        )
-
-        var_diff_column = _find_column(
-            columns,
-            [
-                "var_diff",
-                "variable_diff",
-                "changes",
-                "diff",
-            ]
-        )
-
-        timestamp_column = _find_column(
-            columns,
-            [
-                "timestamp",
-                "created_at",
-                "time",
-            ]
-        )
-
-        session_column = _find_column(
-            columns,
-            [
-                "session_id",
-                "session",
-            ]
-        )
-
-        # ========================================================
-        # LATEST SESSION
-        # ========================================================
-
-        session_id = None
-
-        if (
-            session_column is not None
-            and "sessions" in tables
-        ):
-
-            session_id = _find_latest_session(
+            result = _load_execution_steps(
                 cursor
             )
 
-        # ========================================================
-        # SELECT ALL EVENTS
-        #
-        # We intentionally select * so that small test databases
-        # with different schemas also work.
-        # ========================================================
+            if result:
 
-        query = "SELECT * FROM events"
+                return result
 
-        params = []
+        # ====================================================
+        # 2. REAL PYCHRONICLE DATABASE
+        # ====================================================
 
-        if (
-            session_id is not None
-            and session_column is not None
-        ):
+        if "events" in tables:
 
-            query += (
-                f" WHERE {session_column} = ?"
+            cursor.execute(
+                "PRAGMA table_info(events)"
             )
 
-            params.append(
-                session_id
-            )
+            column_rows = cursor.fetchall()
 
-        # Order by ID if available.
+            columns = [
+                row[1]
+                for row in column_rows
+            ]
 
-        if id_column is not None:
+            if columns:
 
-            query += (
-                f" ORDER BY {id_column} ASC"
-            )
-
-        else:
-
-            query += " ORDER BY rowid ASC"
-
-        cursor.execute(
-            query,
-            params
-        )
-
-        rows = cursor.fetchall()
-
-        if not rows:
-            return None
-
-        # ========================================================
-        # CREATE COLUMN INDEX
-        # ========================================================
-
-        column_index = {
-            column: index
-            for index, column
-            in enumerate(columns)
-        }
-
-        def get_value(row, column):
-            """Safely get a value from a database row."""
-
-            if column is None:
-                return None
-
-            index = column_index.get(
-                column
-            )
-
-            if index is None:
-                return None
-
-            return row[index]
-
-        # ========================================================
-        # BUILD STEPS
-        # ========================================================
-
-        steps = {}
-
-        for index, row in enumerate(
-            rows,
-            start=1
-        ):
-
-            event_id = get_value(
-                row,
-                id_column
-            )
-
-            event = get_value(
-                row,
-                event_column
-            )
-
-            function = get_value(
-                row,
-                function_column
-            )
-
-            file_path = get_value(
-                row,
-                file_column
-            )
-
-            line_number = get_value(
-                row,
-                line_column
-            )
-
-            variables = get_value(
-                row,
-                variables_column
-            )
-
-            var_diff = get_value(
-                row,
-                var_diff_column
-            )
-
-            timestamp = get_value(
-                row,
-                timestamp_column
-            )
-
-            # ====================================================
-            # PARSE VARIABLES
-            # ====================================================
-
-            parsed_vars = variables
-
-            if isinstance(
-                variables,
-                str
-            ):
-
-                text = variables.strip()
-
-                if text:
-
-                    try:
-
-                        parsed_vars = json.loads(
-                            text
-                        )
-
-                    except (
-                        json.JSONDecodeError,
-                        TypeError
-                    ):
-
-                        parsed_vars = variables
-
-            # ====================================================
-            # FORMAT VARIABLES
-            # ====================================================
-
-            vars_text = format_vars(
-                parsed_vars
-            )
-
-            # ====================================================
-            # BASIC VALUES
-            # ====================================================
-
-            event_name = (
-                event
-                if event is not None
-                else "unknown"
-            )
-
-            function_name = (
-                function
-                if function is not None
-                else "unknown"
-            )
-
-            line_value = (
-                line_number
-                if line_number is not None
-                else 1
-            )
-
-            filename = (
-                os.path.basename(
-                    str(file_path)
-                )
-                if file_path
-                else "unknown"
-            )
-
-            # ====================================================
-            # EVENT LOG
-            # ====================================================
-
-            event_text = (
-                f"Event: {event_name}\n"
-                f"Function: {function_name}\n"
-                f"File: {filename}\n"
-                f"Line: {line_value}"
-            )
-
-            if var_diff:
-
-                event_text += (
-                    f"\nVariable changes: "
-                    f"{var_diff}"
+                result = _load_events_table(
+                    cursor,
+                    tables,
+                    columns
                 )
 
-            # ====================================================
-            # SOURCE CODE
-            # ====================================================
+                if result:
+                    return result
 
-            code_text = ""
+        # ====================================================
+        # Nothing supported
+        # ====================================================
 
-            if file_path:
-
-                code_text, _ = _source_code(
-                    str(file_path),
-                    line_value
-                )
-
-            # ====================================================
-            # FALLBACK CODE
-            # ====================================================
-
-            if not code_text:
-
-                code_text = (
-                    f"# Event {event_id or index}\n"
-                    f"# Function: {function_name}\n"
-                    f"# Line: {line_value}"
-                )
-
-            # ====================================================
-            # STORE STEP
-            # ====================================================
-
-            steps[
-                f"step{index}"
-            ] = {
-                "code": code_text,
-                "vars": vars_text,
-                "event": event_text,
-                "line_number": line_value,
-                "source_line": line_value,
-                "function": function,
-                "file": file_path,
-                "event_id": event_id or index,
-                "session_id": session_id,
-                "var_diff": var_diff,
-                "timestamp": timestamp,
-            }
-
-        return steps
+        return None
 
     except (
         sqlite3.Error,
@@ -696,7 +789,6 @@ def load_from_sqlite(db_path="pychronicle.db"):
     finally:
 
         if conn is not None:
-
             conn.close()
 
 
@@ -713,33 +805,15 @@ def load_tracer_data(
 
     Priority:
 
-    1. SQLite real execution data
-    2. JSON backup
-    3. Demo data
+        JSON
+          ↓
+        SQLite
+          ↓
+        Demo
     """
 
     # ========================================================
-    # 1. SQLITE
-    # ========================================================
-
-    data = load_from_sqlite(
-        db_path
-    )
-
-    if data:
-
-        print(
-            f"Loaded {len(data)} real "
-            f"events from SQLite."
-        )
-
-        return (
-            data,
-            "sqlite"
-        )
-
-    # ========================================================
-    # 2. JSON
+    # 1. JSON FIRST
     # ========================================================
 
     data = load_from_json(
@@ -759,7 +833,27 @@ def load_tracer_data(
         )
 
     # ========================================================
-    # 3. DEMO
+    # 2. SQLITE SECOND
+    # ========================================================
+
+    data = load_from_sqlite(
+        db_path
+    )
+
+    if data:
+
+        print(
+            f"Loaded {len(data)} real "
+            f"events from SQLite."
+        )
+
+        return (
+            data,
+            "sqlite"
+        )
+
+    # ========================================================
+    # 3. DEMO LAST
     # ========================================================
 
     print(
