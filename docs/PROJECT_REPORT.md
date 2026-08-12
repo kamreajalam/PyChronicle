@@ -1,187 +1,195 @@
-# PyChronicle — Project Documentation
+# 1. Project Overview
 
-## AST-Powered Time-Travel Debugger
+PyChronicle is a Python-based execution-history and debugging tool that records program execution and allows developers to inspect previous execution states through an interactive Textual-based terminal dashboard.
 
-**Project:** PyChronicle  
-**Category:** Developer Tools & Metaprogramming  
-**Language:** Python  
-**Interface:** Textual Terminal User Interface  
-**Storage:** SQLite  
-**Testing:** pytest  
+The project combines:
 
----
+* Python Abstract Syntax Tree (AST) analysis
+* Runtime execution tracing using `sys.settrace`
+* Execution-event recording
+* Variable/state tracking
+* SQLite-based storage
+* JSON trace loading
+* Trace-data normalization
+* Textual terminal visualization
+* Automated testing
 
-# 1. Introduction
-
-PyChronicle is an AST-powered time-travel debugger for Python.
-
-The objective of PyChronicle is to provide developers with a way to inspect historical execution states of a Python program instead of relying only on conventional forward debugging.
-
-The system combines:
-
-- Python Abstract Syntax Tree (AST) analysis
-- Runtime execution tracing
-- `sys.settrace`
-- Variable/state tracking
-- SQLite storage
-- Trace loading
-- Textual-based terminal interface
-
-The project specification defines PyChronicle as a developer tool that records execution history and allows historical states to be inspected through a timeline-based interface.
+The purpose of the system is to provide a historical view of program execution rather than relying only on conventional forward debugging.
 
 ---
 
 # 2. Problem Statement
 
-Traditional debugging generally follows a linear execution model.
+Traditional debugging generally follows a linear execution process.
 
-A developer runs a program, encounters an incorrect state, investigates it, and may need to restart the program repeatedly to understand how that state was produced.
+When an incorrect state occurred several execution steps earlier, developers may need to restart the program and reproduce the same execution to investigate the problem.
 
-This becomes inefficient when the cause of an error occurred several execution steps earlier.
+PyChronicle addresses this problem by recording execution information and making it available through a timeline-based interface.
 
-PyChronicle addresses this problem by recording execution information while a program runs.
+### Traditional Approach
 
-The recorded history can then be inspected through a timeline.
+```text
+Run Program
+     ↓
+Find Problem
+     ↓
+Restart Program
+     ↓
+Reproduce State
+     ↓
+Debug Again
+```
 
-Instead of:
+### PyChronicle Approach
 
-    Run
-      ↓
-    Debug
-      ↓
-    Find previous state
-      ↓
-    Restart
-      ↓
-    Repeat
-
-PyChronicle provides:
-
-    Program Execution
-          ↓
-    Execution Recording
-          ↓
-    Persistent History
-          ↓
-    Timeline
-          ↓
-    Historical State Inspection
+```text
+Run Program
+     ↓
+Trace Execution
+     ↓
+Store Execution History
+     ↓
+Load Trace
+     ↓
+Navigate Timeline
+     ↓
+Inspect Historical State
+```
 
 ---
 
 # 3. Objectives
 
-The main objectives of the project are:
+The main objectives of PyChronicle are:
 
-1. Parse Python source code using the AST.
-2. Analyze relevant source-code structures.
-3. Trace runtime execution.
+1. Analyze Python source code using AST.
+2. Parse relevant source-code structures.
+3. Trace runtime Python execution.
 4. Capture execution events.
-5. Track variable/state information.
+5. Record variable/state information.
 6. Store execution information in SQLite.
-7. Load recorded trace information.
-8. Provide an interactive terminal interface.
-9. Display execution history through a timeline.
-10. Display source code associated with an execution state.
-11. Display variables associated with an execution state.
-12. Display event information.
-13. Provide basic navigation through execution history.
-14. Provide command-line execution options.
-15. Validate the implementation using automated tests.
-
-The official project plan identifies AST parsing, runtime tracing, SQLite storage, Textual UI, timeline integration, and CLI packaging as the main development areas.
+7. Load execution history from SQLite and JSON.
+8. Normalize trace data for the application.
+9. Provide an interactive Textual dashboard.
+10. Provide execution timeline navigation.
+11. Display source code for selected execution steps.
+12. Display variables associated with execution states.
+13. Display execution events.
+14. Highlight relevant source lines.
+15. Provide command-line configuration.
+16. Validate the implementation using automated tests.
 
 ---
 
 # 4. Technology Stack
 
-| Technology | Purpose |
-|---|---|
-| Python | Core programming language |
-| `ast` | Abstract Syntax Tree analysis |
-| `sys.settrace` | Runtime execution tracing |
-| SQLite | Persistent execution-history storage |
-| Textual | Terminal user interface |
-| Rich | Syntax highlighting |
-| JSON | Trace data interchange/fallback |
-| argparse | Command-line argument parsing |
-| pytest | Automated testing |
-| Git | Version control |
-| GitHub | Repository and collaboration |
+| Technology     | Purpose                       |
+| -------------- | ----------------------------- |
+| Python         | Core implementation           |
+| `ast`          | Source-code and AST analysis  |
+| `sys.settrace` | Runtime execution tracing     |
+| SQLite         | Execution-history storage     |
+| JSON           | Trace-data loading and backup |
+| Textual        | Terminal user interface       |
+| Rich           | Syntax highlighting           |
+| argparse       | Command-line arguments        |
+| pytest         | Automated testing             |
+| Git            | Version control               |
+| GitHub         | Repository management         |
 
 ---
 
 # 5. System Architecture
 
-PyChronicle is divided into several logical components.
-
 ```text
                     Python Program
-                          |
-                          v
-                  +---------------+
-                  |   AST Parser  |
-                  +---------------+
-                          |
-                          v
-                  +---------------+
-                  | Execution     |
-                  | Tracer        |
-                  | sys.settrace  |
-                  +---------------+
-                          |
-                          v
-                  +---------------+
-                  | SQLite        |
-                  | Storage       |
-                  +---------------+
-                          |
-                          v
-                  +---------------+
-                  | Trace Loader  |
-                  +---------------+
-                          |
-                          v
-                  +---------------+
-                  | Textual TUI   |
-                  +---------------+
-                          |
-          +---------------+---------------+
-          |               |               |
-          v               v               v
-      Timeline       Code Viewer     Variable Panel
-                                          |
-                                          v
-                                      Event Log
-````
-
----
-
-# 6. Component Architecture
-
-## 6.1 AST Parser
-
-The AST component uses Python's built-in `ast` module.
-
-The parser analyzes the source code and creates an Abstract Syntax Tree representation.
-
-The AST layer provides the foundation for identifying relevant code structures and variable assignments.
-
-The project specification identifies AST parsing and assignment identification as an initial engineering objective.
-
----
-
-## 6.2 Execution Tracer
-
-The execution tracer uses:
-
-```python
-sys.settrace()
+                          │
+                          ▼
+                  ┌───────────────┐
+                  │   AST Parser  │
+                  └───────┬───────┘
+                          │
+                          ▼
+                  ┌───────────────┐
+                  │ Execution     │
+                  │ Tracer        │
+                  │ sys.settrace  │
+                  └───────┬───────┘
+                          │
+              ┌───────────┴───────────┐
+              ▼                       ▼
+       ┌─────────────┐         ┌─────────────┐
+       │   SQLite    │         │    JSON     │
+       │   Storage   │         │    Trace    │
+       └──────┬──────┘         └──────┬──────┘
+              │                       │
+              └───────────┬───────────┘
+                          ▼
+                  ┌───────────────┐
+                  │ Trace Loader  │
+                  └───────┬───────┘
+                          │
+                          ▼
+                  ┌───────────────┐
+                  │   Textual     │
+                  │   Dashboard   │
+                  └───────────────┘
 ```
 
-The tracing mechanism receives runtime execution events from the Python interpreter.
+---
 
-The tracer can observe events such as:
+# 6. Project Structure
+
+```text
+PyChronicle/
+│
+├── app.py
+├── cli.py
+├── trace_loader.py
+├── trace_output.json
+│
+├── src/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── database.py
+│   ├── events.py
+│   ├── models.py
+│   ├── parser.py
+│   ├── tracer.py
+│   ├── utils.py
+│   └── visiter.py
+│
+├── tests/
+│   ├── test_app_integration.py
+│   ├── test_trace_loader.py
+│   └── test_tracer_validation.py
+│
+├── examples/
+│
+├── docs/
+│
+├── README.md
+├── CHANGES.md
+├── LICENSE
+├── requirements.txt
+└── pytest.ini
+```
+
+### Runtime Database
+
+`pychronicle.db` is a runtime-generated SQLite database. It is used locally during execution and is not required to be committed to the GitHub repository.
+
+---
+
+# 7. Main Components
+
+## 7.1 `src/tracer.py`
+
+Responsible for runtime execution tracing using Python's `sys.settrace()` mechanism.
+
+It captures execution information during program runtime.
+
+Events can include:
 
 ```text
 call
@@ -189,53 +197,65 @@ line
 return
 ```
 
-The collected information can include:
+---
 
-* Function information
-* Source file
-* Source line
-* Execution event
-* Variable/state information
-* Variable changes
+## 7.2 `src/parser.py`
 
-The tracer then stores relevant execution information for later inspection.
+Responsible for parsing Python source code and supporting AST-based analysis.
+
+The parser works with Python's built-in `ast` module.
 
 ---
 
-# 7. SQLite Storage
+## 7.3 `src/visiter.py`
 
-PyChronicle uses SQLite as persistent storage for execution history.
-
-The primary database file used by the project is:
-
-```text
-pychronicle.db
-```
-
-The storage layer is responsible for preserving execution information beyond the current runtime session.
-
-The project specification identifies execution-related storage fields including:
-
-* Timestamp
-* Line number
-* Variable name
-* Serialized value
-
-The implemented system additionally handles execution events, sessions, variable information, and related trace metadata.
+Provides AST visitor functionality for traversing and analyzing the parsed Python syntax tree.
 
 ---
 
-# 8. Trace Loader
+## 7.4 `src/database.py`
 
-The `trace_loader.py` module acts as the data-loading layer between stored traces and the user interface.
+Responsible for SQLite database operations and persistent execution-history storage.
 
-It provides functionality for:
+It provides the database layer used by the tracing system.
 
-* Loading JSON trace data
-* Loading SQLite execution data
-* Formatting variable information
-* Selecting available trace data
-* Providing demo data when no trace is available
+---
+
+## 7.5 `src/models.py`
+
+Contains project data models used to represent execution and trace-related information.
+
+---
+
+## 7.6 `src/events.py`
+
+Defines and manages execution events generated during program tracing.
+
+---
+
+## 7.7 `src/config.py`
+
+Provides project configuration, including database and application-related settings.
+
+---
+
+## 7.8 `src/utils.py`
+
+Contains reusable utility functions used by PyChronicle components.
+
+---
+
+## 7.9 `trace_loader.py`
+
+Acts as the bridge between stored trace information and the dashboard.
+
+It supports:
+
+* SQLite trace loading
+* JSON trace loading
+* Variable formatting
+* Demo-data fallback
+* Trace-data normalization
 
 Important functions include:
 
@@ -246,13 +266,155 @@ load_from_sqlite()
 load_tracer_data()
 ```
 
-The loader allows the application to work with both persisted execution data and fallback data.
+---
+
+## 7.10 `app.py`
+
+Provides the interactive Textual terminal dashboard.
+
+It connects loaded execution data with:
+
+* Timeline
+* Code Viewer
+* Variable Panel
+* Event Log
 
 ---
 
-# 9. Trace Data Sources
+## 7.11 `cli.py`
 
-PyChronicle supports three data states:
+Provides command-line functionality for running and configuring PyChronicle.
+
+---
+
+## 7.12 `tests/`
+
+Contains automated tests for:
+
+* Trace loading
+* Tracer validation
+* Application integration
+* JSON handling
+* SQLite handling
+
+---
+
+# 8. Execution Workflow
+
+The complete execution workflow is:
+
+```text
+Python Source
+      ↓
+AST Analysis
+      ↓
+Program Execution
+      ↓
+sys.settrace()
+      ↓
+Execution Events
+      ↓
+Variable / State Information
+      ↓
+SQLite Storage
+      ↓
+Trace Loader
+      ↓
+Textual Dashboard
+      ↓
+Historical Execution Inspection
+```
+
+---
+
+# 9. AST Analysis
+
+The project uses Python's `ast` module to represent and analyze Python source code structurally.
+
+The AST layer provides information about the program's source-code structure and supports identification of relevant source constructs.
+
+The AST analysis works together with the runtime tracing layer rather than replacing it.
+
+---
+
+# 10. Runtime Execution Tracing
+
+PyChronicle uses:
+
+```python
+sys.settrace()
+```
+
+to observe Python program execution.
+
+The tracing mechanism can receive runtime events such as:
+
+```text
+call
+line
+return
+```
+
+These events provide information about how the program progresses during execution.
+
+The captured information can then be passed to the storage layer.
+
+---
+
+# 11. SQLite Storage
+
+SQLite is used to persist execution-history information.
+
+The runtime database is:
+
+```text
+pychronicle.db
+```
+
+Execution data can contain information such as:
+
+* Events
+* Sessions
+* Functions
+* Source files
+* Line numbers
+* Variables
+* Variable changes
+* Timestamps
+
+The database allows execution information to remain available after the tracing operation.
+
+---
+
+# 12. JSON Trace Support
+
+PyChronicle also supports JSON trace information.
+
+The default JSON trace file is:
+
+```text
+trace_output.json
+```
+
+Example structure:
+
+```json
+{
+    "step1": {
+        "code": "x = 5",
+        "vars": "x = 5",
+        "event": "initialized"
+    }
+}
+```
+
+The trace loader converts JSON trace information into the common structure required by the application.
+
+---
+
+# 13. Trace Loading
+
+The trace loader supports multiple sources:
 
 ```text
 SQLite
@@ -262,57 +424,45 @@ JSON
 Demo Data
 ```
 
-### SQLite
+If usable SQLite data is available, the application can load the recorded execution history.
 
-The SQLite database contains execution information produced by the tracer.
+If SQLite data is unavailable, JSON trace information can be loaded.
 
-### JSON
+If neither source is available, demo data can be used as a fallback.
 
-The JSON trace file is:
-
-```text
-trace_output.json
-```
-
-It provides a portable representation of trace information.
-
-### Demo Data
-
-Demo data is used when no valid trace source is available.
-
-This allows the Textual application to remain functional even when a real trace has not yet been generated.
+This allows the dashboard to remain functional even when a real execution trace is unavailable.
 
 ---
 
-# 10. Textual User Interface
+# 14. Textual Dashboard
 
-The main application is implemented using Textual.
+The user interface is implemented using Textual.
 
-The interface consists of several panels.
+The dashboard provides four major areas:
 
 ```text
-+------------------------------------------------------+
-|                    PYCHRONICLE                       |
-+----------------+-------------------------------------+
-|                |                                     |
-|   TIMELINE     |            CODE VIEWER               |
-|                |                                     |
-| Step 01        |       Python source code             |
-| Step 02        |       Line highlighting             |
-| Step 03        |                                     |
-|                +------------------+------------------+
-|                | VARIABLE PANEL   |   EVENT LOG      |
-|                |                  |                  |
-|                | x = 5            | Function called  |
-|                | y = 10           | Result = 15      |
-+----------------+------------------+------------------+
+┌──────────────────────────────────────────────────────┐
+│                    PYCHRONICLE                       │
+├────────────────┬─────────────────────────────────────┤
+│                │                                     │
+│   TIMELINE     │           CODE VIEWER               │
+│                │                                     │
+│ Step 01        │      Python source code             │
+│ Step 02        │      with line highlighting         │
+│ Step 03        │                                     │
+│                ├──────────────────┬──────────────────┤
+│                │ VARIABLE PANEL   │ EVENT LOG        │
+│                │                  │                  │
+│                │ x = 5            │ Function called │
+│                │ y = 10           │ Result = 15     │
+└────────────────┴──────────────────┴──────────────────┘
 ```
 
 ---
 
-# 11. Timeline
+# 15. Timeline
 
-The timeline represents the recorded execution history.
+The timeline displays recorded execution steps.
 
 Example:
 
@@ -324,287 +474,159 @@ Step 02: step2
 Step 03: step3
 ```
 
-Selecting a step changes the information displayed in the other panels.
-
-The timeline therefore acts as the main navigation mechanism for historical execution.
+When a user selects an execution step, the dashboard updates the corresponding code, variables, and event information.
 
 ---
 
-# 12. Code Viewer
+# 16. Code Viewer
 
 The Code Viewer displays source code associated with the selected execution step.
 
-Example:
+It provides:
 
-```python
-def calculate_sum(a, b):
-    result = a + b
-    return result
+* Python syntax highlighting
+* Line numbers
+* Source-line highlighting
 
-print(calculate_sum(5, 10))
-```
-
-The interface uses Rich syntax rendering to improve source-code readability.
-
-The implementation also supports line highlighting when the corresponding source-line information is available.
+This allows the developer to identify the part of the source code associated with the selected execution state.
 
 ---
 
-# 13. Variable Panel
+# 17. Variable Panel
 
-The Variable Panel displays the variables associated with the selected execution state.
+The Variable Panel displays variables associated with the selected execution state.
 
 Example:
 
 ```text
 VARIABLE PANEL
 
-a = 5
-b = 10
-result = 15
+x = 5
+y = 10
+total = 15
 ```
 
-This allows the developer to inspect the program state at a particular point in execution.
+This allows the user to inspect program state at a particular point in execution.
 
 ---
 
-# 14. Event Log
+# 18. Event Log
 
-The Event Log displays information related to the selected execution event.
+The Event Log displays information about the selected execution event.
 
 Example:
 
 ```text
 EVENT LOG
 
-Function calculate_sum called
-with parameters a=5, b=10.
+Event: line
+Function: calculate_sum
+File: example.py
+Line: 3
 ```
 
-Another possible event:
-
-```text
-Addition complete.
-result evaluated to 15.
-```
-
-This provides additional context about the execution state.
+Variable changes can also be displayed when available.
 
 ---
 
-# 15. User Interaction
+# 19. Keyboard Controls
 
-The application supports keyboard navigation.
-
-| Key    | Function                |
+| Key    | Action                  |
 | ------ | ----------------------- |
-| `D`    | Toggle dark/light theme |
+| `d`    | Toggle dark/light theme |
 | `Home` | First execution step    |
 | `End`  | Last execution step     |
-| `Q`    | Quit application        |
-
-The timeline can also be navigated interactively using the Textual list interface.
+| `q`    | Quit application        |
 
 ---
 
-# 16. Command-Line Interface
+# 20. Command-Line Interface
 
-PyChronicle supports command-line configuration through `argparse`.
-
-The application accepts:
-
-```text
---trace
--t
---db
-```
-
-### Run with default files
+Run the application:
 
 ```bash
 python app.py
 ```
 
-### Specify JSON trace
+Specify a JSON trace:
 
 ```bash
 python app.py --trace trace_output.json
 ```
 
-### Specify SQLite database
+Specify a SQLite database:
 
 ```bash
 python app.py --db pychronicle.db
 ```
 
-### Specify both
+Specify both:
 
 ```bash
 python app.py --trace trace_output.json --db pychronicle.db
 ```
 
-Default paths are:
+---
 
-```text
-trace_output.json
-pychronicle.db
+# 21. Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/kamreajalam/PyChronicle.git
+```
+
+Move into the repository:
+
+```bash
+cd PyChronicle
+```
+
+Create a virtual environment.
+
+### Windows
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### Linux/macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
 ```
 
 ---
 
-# 17. Project Structure
+# 22. Running the Application
 
-```text
-PyChronicle/
-│
-├── app.py
-├── cli.py
-├── trace_loader.py
-├── pychronicle.db
-├── trace_output.json
-│
-├── src/
-│   └── tracer.py
-│
-├── tests/
-│   ├── test_app_integration.py
-│   ├── test_trace_loader.py
-│   └── test_tracer_validation.py
-│
-├── examples/
-│
-├── README.md
-├── CHANGES.md
-├── LICENSE
-├── requirements.txt
-└── pytest.ini
+Start the dashboard:
+
+```bash
+python app.py
 ```
 
----
+The application loads the available trace data and opens the Textual interface.
 
-# 18. Development Phases
+The user can select execution steps from the timeline and inspect the corresponding:
 
-## Phase 1 — AST and Project Foundation
-
-The initial development focused on:
-
-* Project structure
-* AST parsing
-* Source-code analysis
-* Variable assignment identification
-* Initial storage design
+* Source code
+* Variables
+* Execution event
 
 ---
 
-## Phase 2 — Runtime Execution Tracing
+# 23. Testing
 
-The next phase introduced:
-
-* `sys.settrace`
-* Runtime event capture
-* Function events
-* Line events
-* Return events
-* Variable/state information
-* SQLite integration
-
----
-
-## Phase 3 — Trace Storage and Loading
-
-The project then implemented:
-
-* SQLite trace storage
-* JSON trace support
-* Trace loading
-* Variable formatting
-* Fallback handling
-* Session-related information
-
----
-
-## Phase 4 — Textual Dashboard
-
-The interface was developed with:
-
-* Timeline
-* Code Viewer
-* Variable Panel
-* Event Log
-* Syntax highlighting
-* Active-line highlighting
-* Keyboard navigation
-* Theme switching
-
----
-
-## Phase 5 — Integration
-
-The major components were connected:
-
-```text
-Tracer
-   ↓
-SQLite
-   ↓
-Trace Loader
-   ↓
-PyChronicleApp
-   ↓
-Textual Dashboard
-```
-
-The integration process included fixing SQLite loading compatibility, trace-source selection, application integration, and UI behavior.
-
----
-
-## Phase 6 — Testing and Validation
-
-The final stage focused on:
-
-* Unit testing
-* Integration testing
-* Trace validation
-* SQLite validation
-* Application testing
-* UI verification
-* Documentation
-
-The final automated test run currently reports:
-
-```text
-12 passed
-```
-
----
-
-# 19. Execution Validation
-
-The tracer was validated using an actual execution session.
-
-A completed session produced:
-
-```text
-Session #12 complete
-15 events traced
-15 rows stored in pychronicle.db
-```
-
-The execution output included event types such as:
-
-```text
-call
-line
-return
-```
-
-This demonstrates that runtime execution events were captured and persisted.
-
----
-
-# 20. Testing
-
-PyChronicle uses pytest.
+PyChronicle uses `pytest` for automated testing.
 
 Run:
 
@@ -612,211 +634,287 @@ Run:
 pytest -q
 ```
 
-Final test status:
+### Final Verified Result
 
 ```text
 12 passed
 ```
 
-The tests cover areas including:
+Therefore:
+
+```text
+12 / 12 tests passed successfully
+```
+
+The test suite covers areas including:
 
 * Variable formatting
-* JSON loading
+* JSON trace loading
 * Missing JSON files
-* SQLite loading
-* Trace-source selection
+* SQLite trace loading
+* Trace-source handling
 * Demo fallback
 * Application integration
 * Tracer validation
 
-The final verified result is:
+---
+
+# 24. Execution Validation
+
+The execution tracer was validated using a real tracing session.
+
+The validated result was:
 
 ```text
-12 / 12 tests passed
+Session #12 complete
+15 events traced
+15 rows stored in pychronicle.db
 ```
+
+The recorded execution included runtime events such as:
+
+```text
+call
+line
+return
+```
+
+This validated the connection between runtime tracing and SQLite storage.
 
 ---
 
-# 21. Integration Testing
+# 25. Integration
 
-The application was tested with the Textual interface.
-
-The final interface provides:
+The major project components were integrated through:
 
 ```text
-Timeline
+AST Parser
      ↓
-Select Step
+Execution Tracer
      ↓
-Code Viewer Updated
+SQLite Storage
      ↓
-Variables Updated
+Trace Loader
      ↓
-Event Log Updated
+Textual Application
 ```
 
-The application was also tested using generated execution traces and the SQLite database.
+The trace loader provides normalized execution data to the application.
+
+The Textual dashboard then displays the information through the timeline and corresponding detail panels.
 
 ---
 
-# 22. Example Execution
+# 26. Error Handling
 
-Consider:
-
-```python
-def calculate_sum(a, b):
-    result = a + b
-    return result
-
-print(calculate_sum(5, 10))
-```
-
-A trace can contain multiple execution states.
-
-The dashboard allows the user to select a state and inspect:
-
-```text
-Source Code
-Variables
-Execution Event
-```
-
-For example:
-
-```text
-a = 5
-b = 10
-result = 15
-```
-
-The timeline provides access to different recorded states.
-
----
-
-# 23. Error Handling
-
-The trace-loading system includes handling for:
+PyChronicle handles conditions including:
 
 * Missing JSON files
 * Invalid JSON
 * Missing SQLite databases
 * SQLite errors
-* Unsupported database structures
+* Unsupported SQLite structures
 * Missing source files
 * Invalid line numbers
 * Missing variable information
+* Empty trace data
 
-When no usable trace is available, the application can fall back to demo data.
+When no usable trace is available, demo data can be used as a fallback.
 
 ---
 
-# 24. Current Project Status
+# 27. Development Phases
 
-| Component           | Status   |
-| ------------------- | -------- |
-| AST Parser          | Complete |
-| Execution Tracer    | Complete |
-| `sys.settrace`      | Complete |
-| SQLite Storage      | Complete |
-| JSON Loader         | Complete |
-| Trace Loader        | Complete |
-| Textual Dashboard   | Complete |
-| Timeline            | Complete |
-| Code Viewer         | Complete |
-| Variable Panel      | Complete |
-| Event Log           | Complete |
-| Syntax Highlighting | Complete |
-| Line Highlighting   | Complete |
-| Keyboard Navigation | Complete |
-| CLI                 | Complete |
-| Integration         | Complete |
-| Automated Tests     | Complete |
-| Documentation       | Complete |
+## Phase 1 — AST and Foundation
 
-### Final Test Result
+* Project structure
+* AST parsing
+* Source analysis
+* Variable assignment analysis
+* Database foundation
+
+## Phase 2 — Runtime Tracing
+
+* `sys.settrace`
+* Runtime events
+* Function events
+* Line events
+* Return events
+* State information
+* SQLite persistence
+
+## Phase 3 — Storage and Trace Loading
+
+* SQLite integration
+* JSON support
+* Trace loader
+* Variable formatting
+* Session handling
+* Fallback handling
+
+## Phase 4 — Textual Dashboard
+
+* Timeline
+* Code Viewer
+* Variable Panel
+* Event Log
+* Syntax highlighting
+* Line highlighting
+* Keyboard navigation
+* Theme switching
+
+## Phase 5 — Integration
+
+```text
+Tracer
+   ↓
+Storage
+   ↓
+Trace Loader
+   ↓
+Application
+   ↓
+Textual Dashboard
+```
+
+## Phase 6 — Testing and Documentation
+
+* Integration testing
+* Tracer validation
+* SQLite validation
+* Application testing
+* Automated testing
+* README preparation
+* Technical documentation
+* GitHub organization
+
+---
+
+# 28. Final Project Status
+
+The following components are implemented:
+
+* [x] AST parser
+* [x] AST visitor
+* [x] Runtime execution tracer
+* [x] `sys.settrace`
+* [x] SQLite integration
+* [x] Execution events
+* [x] Data models
+* [x] Configuration
+* [x] Utility functions
+* [x] JSON trace loading
+* [x] SQLite trace loading
+* [x] Demo fallback
+* [x] Textual dashboard
+* [x] Timeline
+* [x] Code viewer
+* [x] Variable panel
+* [x] Event log
+* [x] Source-line highlighting
+* [x] Keyboard navigation
+* [x] CLI support
+* [x] Application integration
+* [x] Automated testing
+* [x] README
+* [x] Technical documentation
+
+---
+
+# 29. Final Validation
+
+## Test Validation
 
 ```text
 12 passed
 ```
 
-### Tracing Validation
+**Final test status: 12 / 12 tests passed.**
+
+## Tracer Validation
 
 ```text
+Session #12 complete
 15 events traced
 15 rows stored in pychronicle.db
 ```
 
+These are the final verified project results.
+
 ---
 
-# 25. Limitations
+# 30. Limitations
 
-The current project is a functional implementation/prototype of historical execution debugging.
+The current implementation provides the core historical execution-debugging functionality.
 
 Potential limitations include:
 
-* Large execution traces may require optimization.
-* Complex Python objects may require additional serialization handling.
-* Advanced state reconstruction can be further improved.
-* Large-scale performance benchmarking can be added.
-* More advanced debugging conditions can be implemented.
-* Additional test cases can improve coverage.
-
-These limitations should not be interpreted as failed core requirements; they represent possible future enhancements.
+* Large traces may require further optimization.
+* Complex Python objects may require additional serialization support.
+* Large-scale performance benchmarking can be expanded.
+* Advanced historical state reconstruction can be improved.
+* Additional debugging controls can be added.
+* More edge-case tests can be introduced.
 
 ---
 
-# 26. Future Enhancements
+# 31. Future Enhancements
 
-Potential future development includes:
+Possible future improvements include:
 
-1. Improved trace compression.
-2. More efficient state reconstruction.
+1. More efficient trace compression.
+2. Improved historical state reconstruction.
 3. Watch-variable functionality.
-4. Search through execution history.
+4. Execution-history search.
 5. Trace session export/import.
-6. Advanced conditional debugging.
-7. Performance optimization.
-8. More comprehensive test coverage.
-9. Better handling of complex Python objects.
+6. Advanced event filtering.
+7. Conditional debugging.
+8. Performance optimization.
+9. Improved complex-object handling.
 10. Extended CLI functionality.
+11. Additional integration tests.
+12. Enhanced visualization of variable changes.
 
 ---
 
-# 27. Learning Outcomes
+# 32. Learning Outcomes
 
-The project provided practical experience in:
+This project provided practical experience with:
 
 * Python AST
+* AST visitors
 * Runtime introspection
 * `sys.settrace`
-* Debugging systems
+* Debugging architecture
 * SQLite
-* State tracking
+* Data modeling
+* Execution-state tracking
 * Textual
 * Rich
 * CLI development
 * Automated testing
 * Git
 * GitHub
-* Team-based software development
-* Integration of multiple software components
+* Collaborative development
+* Software integration
 
 ---
 
-# 28. Conclusion
+# 33. Conclusion
 
-PyChronicle demonstrates a practical approach to historical Python execution debugging.
+PyChronicle demonstrates a practical approach to historical execution debugging in Python.
 
-The system combines AST-based source analysis, runtime execution tracing, SQLite persistence, trace loading, and a Textual terminal interface.
+The system combines AST-based source analysis, runtime execution tracing, SQLite persistence, trace loading, and an interactive Textual terminal interface.
 
-The final application allows users to navigate recorded execution steps and inspect:
+The completed application allows developers to navigate recorded execution steps and inspect:
 
 * Source code
 * Variables
 * Execution events
+* Line information
 * Historical execution states
 
-The final implementation has been integrated and validated through automated testing.
+The implementation has been integrated and validated through automated testing.
 
 Final test result:
 
@@ -832,19 +930,27 @@ Session #12 complete
 15 rows stored in pychronicle.db
 ```
 
-PyChronicle therefore provides a working foundation for historical execution inspection and demonstrates the use of Python metaprogramming and runtime tracing techniques in a practical developer tool.
+PyChronicle therefore provides a functional foundation for time-oriented Python execution inspection while demonstrating practical use of Python metaprogramming, runtime tracing, persistent storage, automated testing, and terminal UI development.
 
 ---
 
-# 29. References
+# 34. Repository
 
-The project was developed according to the PyChronicle project specification provided by Infotact Solutions.
+**GitHub Repository:**
 
-Core technologies specified for the project include:
+[https://github.com/kamreajalam/PyChronicle](https://github.com/kamreajalam/PyChronicle)
 
-* Python AST
-* `sys.settrace`
-* SQLite
-* Textual
+**Main Documentation:**
 
-The project specification also defines the four-week progression covering AST analysis, runtime tracing, SQLite storage, timeline integration, CLI packaging, testing, and UI refinement.
+```text
+README.md
+docs/PROJECT_REPORT.md
+```
+
+**Runtime Database:**
+
+```text
+pychronicle.db
+```
+
+The SQLite database is generated locally during execution and is not required to be committed to the GitHub repository.
